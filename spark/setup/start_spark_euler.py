@@ -47,9 +47,9 @@ if  __name__ == "__main__":
 
     os.environ['SPARK_SLAVES'] = slave_file
 
-    master_command = '%s/start-master.sh'%spark_sbin
+    master_command = '%s/start-master.sh' % spark_sbin
 
-    slaves_command = 'mpirun --cpus-per-rank 24 --pernode %s/start-slave.sh 1 spark://%s:7077 -c %s &'%(spark_sbin,my_host,str(cores))
+    slaves_command = 'mpirun --cpus-per-rank 24 --pernode %s/start-slave.sh 1 spark://%s:7077 -c %s &' % (spark_sbin,my_host,str(cores))
 
     print slaves_command
 

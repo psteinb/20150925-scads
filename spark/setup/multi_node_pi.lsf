@@ -1,20 +1,22 @@
 #!/bin/sh
-#BSUB -J sparkpi_job
-#BSUB -W 00:10 # requesting 10 minutes
-#BSUB -oo sparkpi.log # output extra o means overwrite
-#BSUB -eo sparkpi.err
-#BSUB -n 12 # requesting 12 cores 
+#BSUB -J bigsparkpi_job
+#BSUB -W 00:20 # requesting 10 minutes
+#BSUB -oo bsparkpi.log # output extra o means overwrite
+#BSUB -eo bsparkpi.err
+#BSUB -R "rusage[mem=1200]" # 1200MB per core (extra for java overhead)
+#BSUB -n 128 # requesting 128 cores
+
+
 
 # module load new
 # module load java
-module load open_mpi/1.8.6
+# module load open_mpi
 
-if [[ -z $SPARK_HOME ]];then
-export SPARK_HOME=$HOME/software/spark/1.4.1
-fi
+# # setup the spark path
+# . ./setup_spark.sh
 
 # initialize the nodes
-python start_spark_madmax.py -c 12 -m 24g 
+python start_spark_madmax.py -c 12 -m 48g 
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
@@ -25,10 +27,9 @@ python start_spark_madmax.py -c 12 -m 24g
 echo " Master is set as $HOSTNAME"
 JARFILE="$SPARK_HOME/lib/spark-examples*.jar" # version depends on spark version
 
-$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi \
-    --master spark://$HOSTNAME:7077 \
-    --total-executor-cores 12
-    $JARFILE 1000
+$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi --master \
+    spark://$HOSTNAME:7077 $JARFILE \
+    100000
 
 SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh
