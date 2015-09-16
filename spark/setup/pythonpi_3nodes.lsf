@@ -1,10 +1,9 @@
 #!/bin/sh
-#BSUB -J pythonpi
+#BSUB -J pythonpi_3nodes
 #BSUB -W 00:30 
-#BSUB -oo pythonpi_singlenode.log
-#BSUB -eo pythonpi_singlenode.err
-#BSUB -n 12 
-#BSUB -R span[hosts=1]
+#BSUB -oo pythonpi_3nodes.log
+#BSUB -eo pythonpi_3nodes.err
+#BSUB -n 36 
 
 module load openmpi/1.8.6
 
@@ -13,7 +12,7 @@ export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -c 12 -m 20G 
+python start_spark_madmax.py -m 20G #-c 12 
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
@@ -24,7 +23,7 @@ python start_spark_madmax.py -c 12 -m 20G
 echo "> Master is set as $HOSTNAME"
 
 set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores 12 $SPARK_HOME/examples/src/main/python/pi.py 1000
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores 36 $SPARK_HOME/examples/src/main/python/pi.py 1000
 set -x
 
 SPARK_SLAVES=$HOME/slaves_$LSB_JOBID

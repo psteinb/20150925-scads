@@ -7,17 +7,18 @@ if not spark_dir:
 spark_sbin = spark_dir + '/sbin'
 
 # figure out which hosts we have
-pat = re.compile('[e]\d+')
+pat = re.compile('[n]\d+')
 hosts = pat.findall(os.environ.get('LSB_MCPU_HOSTS'))
 
-print os.getenv('LSB_MCPU_HOSTS')
+print ">> LSB_MCPU_HOSTS",os.getenv('LSB_MCPU_HOSTS')
+print ">> found hosts: ", hosts
 
 # main host
 my_host = socket.gethostname()
-max_cores_per_node = 12
+max_cores_per_slave = 12
 
 # set up slave file
-slave_file = '%s/slaves_%s'%(os.getenv('HOME'),os.getenv('LSB_JOBID'))
+slave_file = '%s/slaves_%s' % (os.getenv('HOME'),os.getenv('LSB_JOBID'))
 
 # set up the slaves file
 with open(slave_file,'w') as slaves:
@@ -46,20 +47,22 @@ if  __name__ == "__main__":
 	else : 
 	    cores = 12
 
-    if mem is not None: os.environ['SPARK_EXECUTOR_MEMORY'] = mem
+    if mem is not None:
+        os.environ['SPARK_EXECUTOR_MEMORY'] = mem.upper()
 
     os.environ['SPARK_SLAVES'] = slave_file
 
     master_command = '%s/start-master.sh' % spark_sbin
 
-    cores_per_slave = cores/max_cores_per_node
+    n_slaves_used = len(hosts)
+
+    #    slaves_command = 'mpirun -np %i --map-by node %s/start-slave.sh spark://%s:7077' % (int(cores),
+    slaves_command = 'mpirun --map-by ppr:1:node %s/start-slave.sh spark://%s:7077' % (#int(cores),
+        spark_sbin,
+        my_host)
     
-    slaves_command = 'mpirun -np %i --map-by ppr:1:node %s/start-slave.sh spark://%s:7077 -c %i' % (cores,
-                                                                                                    spark_sbin,
-                                                                                                    my_host,
-                                                                                                    cores_per_slave)
     if mem:
-        slaves_command += " -m " % (mem.upper())
+        slaves_command += " -m %s" % (mem.upper())
 
     slaves_command += " &"
         
