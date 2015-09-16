@@ -56,7 +56,7 @@ if  __name__ == "__main__":
 
     n_slaves_used = len(hosts)
 
-    #    slaves_command = 'mpirun -np %i --map-by node %s/start-slave.sh spark://%s:7077' % (int(cores),
+    #http://stackoverflow.com/questions/28216897/syntax-of-the-map-by-option-in-openmpi-mpirun-v1-8
     slaves_command = 'mpirun --map-by ppr:1:node %s/start-slave.sh spark://%s:7077' % (#int(cores),
         spark_sbin,
         my_host)
