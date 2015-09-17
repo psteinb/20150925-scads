@@ -22,7 +22,7 @@ master_ip = os.getenv("HOSTNAME")
 # set up slave file
 slave_file = '%s/slaves_%s' % (os.getenv('HOME'),os.getenv('LSB_JOBID'))
 
-
+    
 if  __name__ == "__main__":
     import getopt
 
@@ -31,16 +31,16 @@ if  __name__ == "__main__":
     cores = None
 
     try  :
-        opts, args  = getopt.getopt(sys.argv[1:], "m:c:")
+        opts, args  = getopt.getopt(sys.argv[1:], "m:s:")
     except getopt.GetoptError :
-        usage()
+        print "python start_spark_madmax.py -m <memory-per-worker-node> -s <dir-for-scratch>"
         sys.exit(2)
 
     for opt, arg in opts :
         if opt == '-m' :
             mem = arg
         if opt == '-s' :
-            if os.path.exists(arg) and os.path.is_directory(arg):
+            if os.path.exists(arg) and os.path.isdir(arg):
                 slave_file = '%s/slaves_%s' % (arg,os.getenv('LSB_JOBID'))
                 os.environ['SPARK_LOCAL_DIRS']=arg
 

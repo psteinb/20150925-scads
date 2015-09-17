@@ -1,5 +1,5 @@
 #!/bin/sh
-#BSUB -J pythonmd5sum_%J
+#BSUB -J pythonmd5sum
 #BSUB -W 00:10 
 #BSUB -oo pythonmd5sum_%J.log
 
@@ -8,7 +8,7 @@ export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -m 2G
+python start_spark_madmax.py -m 2G -s /scratch/users/$USER
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
@@ -20,7 +20,7 @@ set +x
 $SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} dist_md5sum.py /projects/hpcsupport/steinbac/multiview_data/celegans_cube128_offsetsdefault
 set -x
 
-
+SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh
 $SPARK_HOME/sbin/stop-slaves.sh
 echo "cleanup slaves file $SPARK_SLAVES"

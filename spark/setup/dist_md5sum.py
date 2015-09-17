@@ -44,7 +44,7 @@ if __name__ == "__main__":
             sys.exit(1)
 
     filelist = glob.glob(path_to_parse+"/*")
-    print "[%s] distributing %i files from " % (this_file_name,len(filelist),path_to_parse)
+    print "[%s] distributing %i files from %s" % (this_file_name,len(filelist),path_to_parse)
     
     sc = SparkContext(appName="PythonMD5SUM")
     #sc.setLogLevel("ALL")

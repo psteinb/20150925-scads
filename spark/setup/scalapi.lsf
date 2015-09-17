@@ -1,5 +1,5 @@
 #!/bin/sh
-#BSUB -J scalapi_%J
+#BSUB -J scalapi
 #BSUB -W 00:30 
 #BSUB -oo scalapi_%J.log # output extra o means overwrite
 
@@ -8,7 +8,7 @@ export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -m 20G -s /scratch/users/$USERNAME/
+python start_spark_madmax.py -m 20G -s /scratch/users/$USER/
 
 JARFILE="$SPARK_HOME/lib/spark-examples*.jar" # version depends on spark version
 
@@ -19,7 +19,7 @@ $SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi \
     $JARFILE 1000
 set -x
 
-#SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
+SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh
 $SPARK_HOME/sbin/stop-slaves.sh
 echo "cleanup slaves file $SPARK_SLAVES"
