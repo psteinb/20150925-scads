@@ -13,7 +13,8 @@ export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -c 12 -m 20G 
+export SPARK_GLOBAL_SCRATCH=/scratch/users/$USERNAME/
+python start_spark_madmax.py -m 20G -s /scratch/users/$USERNAME/
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
@@ -24,9 +25,11 @@ python start_spark_madmax.py -c 12 -m 20G
 echo "> Master is set as $HOSTNAME"
 
 set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores 12 $SPARK_HOME/examples/src/main/python/pi.py 1000
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} $SPARK_HOME/examples/src/main/python/pi.py 1000
 set -x
 
-SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
+#SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh
 $SPARK_HOME/sbin/stop-slaves.sh
+echo "cleanup slaves file $SPARK_SLAVES"
+rm -v $SPARK_SLAVES

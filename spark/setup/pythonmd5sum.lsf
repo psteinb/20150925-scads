@@ -1,18 +1,14 @@
 #!/bin/sh
-#BSUB -J pythonpi_3nodes
-#BSUB -W 00:30 
-#BSUB -oo pythonpi_3nodes.log
-#BSUB -eo pythonpi_3nodes.err
-#BSUB -n 36 
-
-module load openmpi/1.8.6
+#BSUB -J pythonmd5sum_%J
+#BSUB -W 00:10 
+#BSUB -oo pythonmd5sum_%J.log
 
 if [[ -z $SPARK_HOME ]];then
 export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -m 20G #-c 12 
+python start_spark_madmax.py -m 2G
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
@@ -20,12 +16,12 @@ python start_spark_madmax.py -m 20G #-c 12
 
 # the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
 
-echo "> Master is set as $HOSTNAME"
-
 set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores 36 $SPARK_HOME/examples/src/main/python/pi.py 1000
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} dist_md5sum.py /projects/hpcsupport/steinbac/multiview_data/celegans_cube128_offsetsdefault
 set -x
 
-SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
+
 $SPARK_HOME/sbin/stop-all.sh
 $SPARK_HOME/sbin/stop-slaves.sh
+echo "cleanup slaves file $SPARK_SLAVES"
+rm -v $SPARK_SLAVES

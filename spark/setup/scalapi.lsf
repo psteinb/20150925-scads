@@ -1,38 +1,26 @@
 #!/bin/sh
-#BSUB -J scalapi
+#BSUB -J scalapi_%J
 #BSUB -W 00:30 
-#BSUB -oo scalapi_singlenode.log # output extra o means overwrite
-#BSUB -eo scalapi_singlenode.err
-#BSUB -n 12 
-#BSUB -R span[hosts=1]
-
-module load openmpi/1.8.6
+#BSUB -oo scalapi_%J.log # output extra o means overwrite
 
 if [[ -z $SPARK_HOME ]];then
 export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -c 12 -m 20G 
-
-# creates the slaves file, starts the spark master and worker processes using mpirun
-# the "-c" option specifies number of cores per worker
-# -m specifies SPARK_MEMORY
-
-# the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
-
-echo "> Master is set as $HOSTNAME"
-
+python start_spark_madmax.py -m 20G -s /scratch/users/$USERNAME/
 
 JARFILE="$SPARK_HOME/lib/spark-examples*.jar" # version depends on spark version
 
 set +x
 $SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi \
     --master spark://$HOSTNAME:7077 \
-    --total-executor-cores 12 \
+    --total-executor-cores ${LSB_DJOB_NUMPROC} \
     $JARFILE 1000
 set -x
 
-SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
+#SPARK_SLAVES=$HOME/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh
 $SPARK_HOME/sbin/stop-slaves.sh
+echo "cleanup slaves file $SPARK_SLAVES"
+rm -v $SPARK_SLAVES
