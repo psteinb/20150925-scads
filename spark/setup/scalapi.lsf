@@ -8,7 +8,7 @@ export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python start_spark_madmax.py -m 20G -s /scratch/users/$USER/
+python start_spark_lsf.py -m 20G -s /scratch/users/$USER/
 
 JARFILE="$SPARK_HOME/lib/spark-examples*.jar" # version depends on spark version
 
