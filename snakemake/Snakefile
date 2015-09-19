@@ -1,0 +1,49 @@
+import os, glob, sys
+
+#where are we
+if "datadir" not in config.keys():
+   JOBDIR=os.path.abspath(os.path.curdir)
+else:
+   if os.path.isdir(config['datadir']):
+      JOBDIR=config['datadir']
+   else:
+      print("given data dir does not exist {data}".format(data=config['datadir']))
+      sys.exit(1)
+
+datasets = glob.glob(JOBDIR+'/*png') 
+datasets.extend(glob.glob(JOBDIR+'/*tiff') )
+datasets.extend(glob.glob(JOBDIR+'/*tif') )
+datasets.extend(glob.glob(JOBDIR+'/*jpg') )
+
+datasets_split = [ os.path.splitext(item) for item in datasets ]
+
+rule final:
+    input : JOBDIR+"/report"
+
+rule bootstrap_png:
+    input : "{bname}.png"
+    output : "{bname}_e0.png"
+    shell : "python ./bootstrap_images.py {input}"
+
+rule bootstrap_tiff:
+    input : "{bname}.tiff"
+    output : "{bname}_e0.tiff"
+    shell : "python ./bootstrap_images.py {input}"
+
+rule bootstrap_tif:
+    input : "{bname}.tif"
+    output : "{bname}_e0.tif"
+    shell : "python ./bootstrap_images.py {input}"
+
+rule bootstrap_jpg:
+    input : "{bname}.jpg"
+    output : "{bname}_e0.jpg"
+    shell : "python ./bootstrap_images.py {input}"
+
+rule report:
+    input : [ item[0]+'_e0'+item[1] for item in datasets_split ], datasets
+    output: JOBDIR+"/report"
+    shell : "md5sum {input} > {output}"
+
+rule clean:
+    shell: "rm -f {jdir}/*_e?.* {jdir}/report".format(jdir=JOBDIR)
