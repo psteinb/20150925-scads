@@ -65,10 +65,10 @@ if __name__ == '__main__':
                         help='perform rotation only (default: False)')
 
     parser.add_argument('-n','--name_insert',
-                        default='_e',
+                        default='_cr',
                         action='store',
                         type=str,
-                        help='file name insertion for bootstrapped image (default: _e)')
+                        help='file name insertion for bootstrapped image (default: _cr)')
     
     
     args = parser.parse_args()
