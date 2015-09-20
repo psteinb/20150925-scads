@@ -15,11 +15,13 @@ def change_and_write(_fname,_image,_args):
 
     #write to disk
     namebase,nameext = os.path.splitext(_fname)
-    name2save = namebase+_args.name_insert+str(0)+nameext
+    name2save = namebase+_args.name_insert+nameext
     if not os.path.exists(name2save):
         io.imsave(name2save,value)
     else:
-        for i in range(1,10):
+        print name2save,"already exists, trying other names"
+        #try other names
+        for i in range(10):
             name2save = namebase+_args.name_insert+str(i)+nameext
             if not os.path.exists(name2save):
                 io.imsave(name2save,value)
