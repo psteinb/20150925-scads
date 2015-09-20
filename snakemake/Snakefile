@@ -1,4 +1,4 @@
-import os, glob, sys
+import os, glob, sys, time
 
 #where are we
 if "datadir" not in config.keys():
@@ -17,6 +17,11 @@ datasets.extend(glob.glob(JOBDIR+'/*tif') )
 datasets.extend(glob.glob(JOBDIR+'/*jpg') )
 
 datasets_split = [ os.path.splitext(item) for item in datasets ]
+color_bootstrapped = [item[0]+"_c"+item[1] for item in datasets_split]
+rotate_bootstrapped = []
+for i in range(3):
+   rotate_bootstrapped.expand([item[0]+"_r"+str(i)+item[1] for item in color_bootstrapped])
+
 
 rule final:
     input : JOBDIR+"/report"
@@ -24,29 +29,61 @@ rule final:
 rule color_bootstrap_png:
     input : "{bname}.png"
     output : "{bname}_c.png"
-    shell : "python ./bootstrap_images.py -n '_c' {input}"
+    shell : "python ./bootstrap_images.py -c -n '_c' {input}"
 
 rule color_bootstrap_tiff:
     input : "{bname}.tiff"
     output : "{bname}_c.tiff"
-    shell : "python ./bootstrap_images.py -n '_c' {input}"
+    shell : "python ./bootstrap_images.py -c -n '_c' {input}"
 
 rule color_bootstrap_tif:
     input : "{bname}.tif"
     output : "{bname}_c.tif"
-    shell : "python ./bootstrap_images.py -n '_c' {input}"
+    shell : "python ./bootstrap_images.py -c -n '_c' {input}"
 
 rule color_bootstrap_jpg:
     input : "{bname}.jpg"
-    output : "{bname}_c.jpg"
-    shell : "python ./bootstrap_images.py -n '_c' {input}"
+    output: "{bname}_c.jpg"
+    shell : "python ./bootstrap_images.py -c -n '_c' {input}"
 
-rule report:
-    input : [ item[0]+'_c'+item[1] for item in datasets_split ], datasets
-    output: JOBDIR+"/report"
+rule color_report:
+    input : color_bootstrapped
+    output: JOBDIR+"/color_report"
     shell : "md5sum {input} > {output}"
 
+rule rotate_bootstrap_png:
+    input : "{bname}_c.png",JOBDIR+"/color_report"
+    output: expand("{{bname}}_c_{rid}.png", rid=["r"+item for item in range(3)])
+    shell : "python ./bootstrap_images.py -r -n '_r0' {input};python ./bootstrap_images.py -r -n '_r1' {input};python ./bootstrap_images.py -r -n '_r2' {input}"
 
     
+rule rotate_bootstrap_tif:
+    input : "{bname}_c.tif",JOBDIR+"/color_report"
+    output: expand("{{bname}}_c_{rid}.tif", rid=["r"+item for item in range(3)])
+    shell : "python ./bootstrap_images.py -r -n '_r0' {input};python ./bootstrap_images.py -r -n '_r1' {input};python ./bootstrap_images.py -r -n '_r2' {input}"
+
+    
+rule rotate_bootstrap_tiff:
+    input : "{bname}_c.tiff",JOBDIR+"/color_report"
+    output: expand("{{bname}}_c_{rid}.tiff", rid=["r"+item for item in range(3)])
+    shell : "python ./bootstrap_images.py -r -n '_r0' {input};python ./bootstrap_images.py -r -n '_r1' {input};python ./bootstrap_images.py -r -n '_r2' {input}"
+
+    
+rule rotate_bootstrap_jpg:
+    input : "{bname}_c.jpg",JOBDIR+"/color_report"
+    output: expand("{{bname}}_c_{rid}.jpg", rid=["r"+item for item in range(3)])
+    shell : "python ./bootstrap_images.py -r -n '_r0' {input};python ./bootstrap_images.py -r -n '_r1' {input};python ./bootstrap_images.py -r -n '_r2' {input}"
+
+
+rule rotate_report:
+    input : rotate_bootstrapped
+    output: JOBDIR+"/rotate_report"
+    shell : "md5sum {input} > {output}"
+
+rule expected:
+    message: "input files\n{all_inputs}\ncolor_bootstrapped\n{colored}\nrotated_bootstrapped\n{rotated}".format(all_inputs=" ".join(datasets),
+                                                                                                                colored=" ".join(color_bootstrapped),
+                                                                                                                rotated =" ".join(rotate_bootstrapped))
+    
 rule clean:
-    shell: "rm -f {jdir}/*_e?.* {jdir}/report".format(jdir=JOBDIR)
+    shell: "rm -f {jdir}/*_c.* {jdir}/color_report".format(jdir=JOBDIR)
