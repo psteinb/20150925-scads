@@ -22,13 +22,11 @@ import sys
 import os
 import hashlib
 import glob
+import random
+import numpy
 
 from operator import add
 from pyspark import SparkContext
-
-from bootstrap_utils import *
-from skimage import io
-
 
 
 if __name__ == "__main__":
@@ -58,13 +56,16 @@ if __name__ == "__main__":
 
     print "[%s] distributing %i files from %s" % (this_file_name,len(filelist),path_to_parse)
     
-    
+    sc = SparkContext(appName="PythonBootstrap",pyFiles=[__file__, '/home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.py'])
     #sc.setLogLevel("ALL")
     
     def color_image(_fname,_name_insert='_c'):
 
+        from bootstrap_utils import random_enhance_color
+        from skimage import io
+        
         image = io.imread(_fname)
-        image = random_enhance_color(value)
+        image = random_enhance_color(image)
         namebase,nameext = os.path.splitext(_fname)
         name2save = namebase+_name_insert+nameext
         io.imsave(name2save,image)
@@ -75,8 +76,11 @@ if __name__ == "__main__":
                                    name2save)
 
     def rotate_image(_fname,_name_insert='_r'):
-        image = io.imread(_fname)
 
+        from bootstrap_utils import random_rotate
+        from skimage import io
+        
+        image = io.imread(_fname)
         rvalue = ""
         
         for i in range(3):
@@ -84,13 +88,13 @@ if __name__ == "__main__":
             namebase,nameext = os.path.splitext(_fname)
             name2save = namebase+_name_insert+str(i)+nameext
             io.imsave(name2save,result)
-            rvalues += "%s %s\n" % (hashlib.md5(open(name2save,'rb').read()).hexdigest(),
-                                    name2save)
+            rvalue += "%s %s\n" % (hashlib.md5(open(name2save,'rb').read()).hexdigest(),
+                                   name2save)
 
         return rvalue
         
 
-    sc = SparkContext(appName="PythonBootstrap")
+   
     
     colorlist = sc.parallelize(filelist).map(color_image).reduce(add)
 
