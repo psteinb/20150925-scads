@@ -1,0 +1,1 @@
+CWD=$PWD;for i in `seq 12 12 160`;do cd $PWD/run_${i}_jobs; snakemake -j ${i} --cluster "bsub -q short -oo snakemake_${i}jobs_%J.log" > ../snakemake_${i}.log 2>&1; cd ${CWD} ;done

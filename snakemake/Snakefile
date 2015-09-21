@@ -15,6 +15,7 @@ datasets = glob.glob(JOBDIR+'/*png')
 datasets.extend(glob.glob(JOBDIR+'/*tiff') )
 datasets.extend(glob.glob(JOBDIR+'/*tif') )
 datasets.extend(glob.glob(JOBDIR+'/*jpg') )
+datasets = [ item for item in datasets if item.count("_c")<1 and item.count("_r")<1 ]
 
 datasets_split = [ os.path.splitext(item) for item in datasets ]
 color_bootstrapped = [item[0]+"_c"+item[1] for item in datasets_split]
@@ -23,11 +24,13 @@ for i in range(3):
    rotate_bootstrapped.extend([item[0]+"_c_r"+str(i)+item[1] for item in datasets_split])
 
 start_time = time.time()
+rotate_report_fname = JOBDIR+"/rotate_report"
+color_report_fname = JOBDIR+"/color_report"
+
 print(">> Started at {seconds_since_epoch}".format(seconds_since_epoch=str(start_time)))
 
 rule final:
-    input : JOBDIR+"/rotate_report",JOBDIR+"/color_report"
-    #message : ">> Finished at {seconds_since_epoch} (took {delta} s)".format(seconds_since_epoch=str(time.time()),delta=str(time.time()-start_time))
+    input : rotate_report_fname,color_report_fname
     shell : "echo -n '>> Finished at ';python3 -c 'import time;print(time.time());'"
 
 rule color_bootstrap_png:
@@ -52,40 +55,40 @@ rule color_bootstrap_jpg:
 
 rule color_report:
     input : color_bootstrapped
-    output: JOBDIR+"/color_report"
+    output: color_report_fname
     shell : "md5sum {input} > {output}"
 
 rule rotate_bootstrap_png:
-    input : "{bname}_c.png",JOBDIR+"/color_report"
+    input : "{bname}_c.png",color_report_fname
     output: expand("{{bname}}_c_{rid}.png", rid=["r"+str(item) for item in range(3)])
     shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
 
     
 rule rotate_bootstrap_tif:
-    input : "{bname}_c.tif",JOBDIR+"/color_report"
+    input : "{bname}_c.tif",color_report_fname
     output: expand("{{bname}}_c_{rid}.tif", rid=["r"+str(item) for item in range(3)])
     shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
 
     
 rule rotate_bootstrap_tiff:
-    input : "{bname}_c.tiff",JOBDIR+"/color_report"
+    input : "{bname}_c.tiff",color_report_fname
     output: expand("{{bname}}_c_{rid}.tiff", rid=["r"+str(item) for item in range(3)])
     shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
 
     
 rule rotate_bootstrap_jpg:
-    input : "{bname}_c.jpg",JOBDIR+"/color_report"
+    input : "{bname}_c.jpg",color_report_fname
     output: expand("{{bname}}_c_{rid}.jpg", rid=["r"+str(item) for item in range(3)])
     shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
 
 
 rule rotate_report:
     input : rotate_bootstrapped
-    output: JOBDIR+"/rotate_report"
+    output: rotate_report_fname
     shell : "md5sum {input} > {output}"
 
 rule expected:
     message: "input files\n{all_inputs}\ncolor_bootstrapped\n{colored}\nrotated_bootstrapped\n{rotated}".format(all_inputs="\n".join(datasets),colored="\n".join(color_bootstrapped),rotated="\n".join(rotate_bootstrapped))
     
 rule clean:
-    shell: "rm -f {jdir}/*_c.* {jdir}/*_c_*.* {jdir}/color_report {jdir}/rotate_report".format(jdir=JOBDIR)
+    shell: "rm -f {jdir}/*_c.* {jdir}/*_c_*.* {jdir}/{rfname} {jdir}/{cfname}".format(jdir=JOBDIR,rfname=rotate_report_fname,cfname=color_report_fname)

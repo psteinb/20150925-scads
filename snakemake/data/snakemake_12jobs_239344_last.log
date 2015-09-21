@@ -1,0 +1,32 @@
+Sender: LSF System <hpcadmin@n29>
+Subject: Job 239344: </lustre/projects/hpcsupport/steinbac/scads/snakemake/run_12_jobs/.snakemake/tmp.IXJPWC/snakejob.final.394.sh> in cluster scuba_cluster1 Done
+
+Job </lustre/projects/hpcsupport/steinbac/scads/snakemake/run_12_jobs/.snakemake/tmp.IXJPWC/snakejob.final.394.sh> was submitted from host <falcon> by user <steinbac> in cluster <scuba_cluster1>.
+Job was executed on host(s) <n29>, in queue <short>, as user <steinbac> in cluster <scuba_cluster1>.
+</home/steinbac> was used as the home directory.
+</projects/hpcsupport/steinbac/scads/snakemake/run_12_jobs> was used as the working directory.
+Started at Mon Sep 21 00:30:13 2015
+Results reported at Mon Sep 21 00:30:14 2015
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/lustre/projects/hpcsupport/steinbac/scads/snakemake/run_12_jobs/.snakemake/tmp.IXJPWC/snakejob.final.394.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :      0.83 sec.
+    Max Memory :         3 MB
+    Max Swap   :        33 MB
+
+    Max Processes  :         1
+    Max Threads    :         1
+
+The output (if any) follows:
+
+>> Started at 1442788214.0268853
+>> Finished at 1442788214.1360881
