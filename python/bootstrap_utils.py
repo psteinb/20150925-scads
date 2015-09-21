@@ -3,12 +3,19 @@ from skimage.transform import rotate
 import numpy as np
 from skimage import io
 import os
+import time
 
-def random_rotate(_image, _seed = 0):
+def random_rotate(_image, _seed = 0, _verbose=False):
     """ rotates given image (aka numpy 3D array) by a random angle """
+
     random.seed(_seed)
+    if not _seed:
+        random.seed(time.time())
+        
     degrees = random.randrange(360)
-    
+    if _verbose:
+        print __file__," rotating by ",degrees
+        
     return rotate(_image,degrees)
 
 
@@ -33,7 +40,7 @@ def change_and_write(_fname,_image,_args):
 
     value = _image
     if not _args.color_only:    
-        value = random_rotate(value)
+        value = random_rotate(value,0,_args.verbose)
         
     if not _args.rotate_only:    
         value = random_enhance_color(value)
