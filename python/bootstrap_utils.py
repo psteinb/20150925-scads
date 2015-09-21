@@ -1,6 +1,8 @@
 import random
 from skimage.transform import rotate
 import numpy as np
+from skimage import io
+import os
 
 def random_rotate(_image, _seed = 0):
     """ rotates given image (aka numpy 3D array) by a random angle """
@@ -26,3 +28,23 @@ def random_enhance_color(_image, _seed = 0, _color_id = -1):
     value[...,_color_id] = cvals
     
     return value
+
+def change_and_write(_fname,_image,_args):
+
+    value = _image
+    if not _args.color_only:    
+        value = random_rotate(value)
+        
+    if not _args.rotate_only:    
+        value = random_enhance_color(value)
+
+    #write to disk
+    namebase,nameext = os.path.splitext(_fname)
+    name2save = namebase+_args.name_insert+nameext
+    io.imsave(name2save,value)
+    
+    if _args.verbose:
+        print name2save, " written to disk"
+
+def wrap_change_and_write(_tuple):
+    change_and_write(_tuple[0], _tuple[1], _tuple[2])

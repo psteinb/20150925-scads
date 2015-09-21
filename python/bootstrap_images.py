@@ -4,25 +4,6 @@ from bootstrap_utils import *
 import os
 from multiprocessing import Pool
 
-def change_and_write(_fname,_image,_args):
-
-    value = _image
-    if not _args.color_only:    
-        value = random_rotate(value)
-        
-    if not _args.rotate_only:    
-        value = random_enhance_color(value)
-
-    #write to disk
-    namebase,nameext = os.path.splitext(_fname)
-    name2save = namebase+_args.name_insert+nameext
-    io.imsave(name2save,value)
-    
-    if _args.verbose:
-        print name2save, " written to disk"
-
-def wrap_change_and_write(_tuple):
-    change_and_write(_tuple[0], _tuple[1], _tuple[2])
     
 
 if __name__ == '__main__':
