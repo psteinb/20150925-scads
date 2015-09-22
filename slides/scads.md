@@ -9,59 +9,74 @@ date: September 25, 2015
 
 ## MPI CBG
 
-![Taken from [www.dkfz.de/Macromol/research](http://www.dkfz.de/Macromol/research/pic/spim_principle_large.png)](img/spim_principle_large.png)
-
-
-## Scopes
+![Some comments including license](img/1280px-MPI-CBG_building_outside_4pl.jpg)
 
 [columns,class="row vertical-align"]
 
 [column,class="col-xs-6"]
 
-![Zeiss Lightsheet Z.1 [MPI-CBG_LMF](http://www.biodip.de/wiki/MPI-CBG_LMF)](img/LZ1_-_Zeiss_Lightsheet_Z.1_600p.jpg)
+* 500 staff
+* 50 % non-german
+* founded 2001
 
 [/column]
 
 [column,class="col-xs-6"]
 
-![T-SPIM Farm from [openspim.org](http://openspim.org/Gallery)](img/2I_1D_OpenSPIM_farm_02_600p.jpg)
+* cell biology
+* genomics
+* systems biology
 
 [/column]
 
 [/columns]
 
-## SPIM data 
+## microscopes
 
 [columns,class="row vertical-align"]
 
 [column,class="col-xs-6"]
 
-**Unknowns**
-
-* big (GB to TB)
-* produced at high rate (min. 100-850 MB/s)
-* different formats (.czi, .tiff, .h5)
-* different specimen
-* different experiments (timelapse, multi-channel)
+![Zeiss Lightsheet Z.1 [MPI-CBG_LMF](http://www.biodip.de/wiki/MPI-CBG_LMF) (no license)](img/LZ1_-_Zeiss_Lightsheet_Z.1_600p.jpg)
 
 [/column]
 
 [column,class="col-xs-6"]
 
-**Knowns**
+![T-SPIM Farm from [openspim.org](http://openspim.org/Gallery) (no license)](img/2I_1D_OpenSPIM_farm_02_600p.jpg)
 
-* mostly (if not exclusively) 16-bit encoded
-* scan through 3D volume
-* noisy
-* analysis on clusters/workstations
-* aquisition on desktops
-* nobody wants to loose data
+[/column]
+
+
+[/columns]
+
+[columns,class="row vertical-align"]
+
+[column,class="col-xs-6"]
+
+* Commercial system (2 inhouse)
+* 120 MB/s imaging data
+* at best run 24/7
+
+[/column]
+
+[column,class="col-xs-6"]
+
+* custom systems (>6 inhouse) 
+* > 850 MB/s imaging data
+* at best run 24/7
 
 [/column]
 
 [/columns]
 
-#
+
+## Parallel Processing Essential 
+
+Picture of screaming student!
+
+
+# On the Road to Cluster Computing
 
 ## Sqeazy
 

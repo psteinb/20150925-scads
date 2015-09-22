@@ -1,0 +1,22 @@
+import glob
+
+DATAFILES = glob.glob(config["inputfiles"])
+OUTPUT = [ item.replace(".dat",".zip") for item in DATAFILES ]
+
+rule final:
+    input: 'bag.tar'
+
+rule compress:
+    input:  '{name}.dat'
+    output: '{name}.zip'
+    message: ">> mapping call to zip"
+    shell:  'zip {output} {input}'
+
+rule bag:
+    input:  OUTPUT
+    output: 'bag.tar'
+    message: ">> reduce with tar"
+    shell:  'tar cf {output} {input}'
+
+rule clean:
+    shell: "rm -f *zip *tar"
