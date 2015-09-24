@@ -1,0 +1,268 @@
+Sender: LSF System <hpcadmin@n44>
+Subject: Job 282311: <rotate_3> in cluster scuba_cluster1 Done
+
+Job <rotate_3> was submitted from host <falcon> by user <steinbac> in cluster <scuba_cluster1>.
+Job was executed on host(s) <12*n44>, in queue <gpu>, as user <steinbac> in cluster <scuba_cluster1>.
+</home/steinbac> was used as the home directory.
+</projects/hpcsupport/steinbac/scads/standalone> was used as the working directory.
+Started at Thu Sep 24 11:40:41 2015
+Results reported at Thu Sep 24 11:44:36 2015
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J 'rotate_3'
+#BSUB -W 01:00
+#BSUB -q gpu
+#BSUB -n 12
+#BSUB -R "span[hosts=1]"
+#BSUB -o rotate_3_%J.log
+
+for i in `seq 1 3`;
+do
+    FILES=`lfs ls /projects/hpcsupport/steinbac/scads/standalone/*[0-9].jpg|egrep -v '_n4'`
+    python /projects/hpcsupport/steinbac/scads/standalone/bootstrap_images.py -v -j 12 -r -n "_r${i}_${HOSTNAME}" ${FILES}
+done
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :   1300.98 sec.
+    Max Memory :     28812 MB
+    Max Swap   :     35520 MB
+
+    Max Processes  :        16
+    Max Threads    :        20
+
+The output (if any) follows:
+
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  152
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_158_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  355
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_270_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  2
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_175_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  8
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_112_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  96
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_346_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  88
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_259_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  121
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_185_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  144
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_106_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  195
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_202_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  68
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_218_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  6
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_142_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  185
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_254_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  75
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_335_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  162
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_231_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  344
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_330_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  6
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_225_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  273
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_32_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  149
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_170_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  76
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_339_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  67
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_135_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  344
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_273_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  196
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_129_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  208
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_174_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  112
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_190_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  248
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_203_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  310
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_141_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  254
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_266_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  35
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_156_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  63
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_230_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  296
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_302_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  166
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_282_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  248
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_178_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  100
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_303_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  125
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_311_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  296
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_104_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  228
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_222_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  32
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_144_r1_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  70
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_213_r1_n44.jpg  written to disk
+/lu/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  169
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_158_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  128
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_270_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  162
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_175_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  81
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_112_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  125
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_346_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  201
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_259_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  236
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_185_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  44
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_106_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  295
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_202_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  256
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_218_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  46
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_142_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  227
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_254_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  258
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_335_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  172
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_231_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  223
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_330_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  131
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_225_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  97
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_32_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  340
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_170_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  120
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_339_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  247
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_135_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  335
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_273_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  244
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_350_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  56
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_338_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  188
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_289_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  183
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_337_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  71
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_233_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  312
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_173_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  175
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_132_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  5
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_365_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  35
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_293_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  23
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_192_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  96
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_345_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  158
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_284_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  197
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_355_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  221
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_264_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  64
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_295_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  203
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_139_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  182
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_207_r2_n44.jpg  written to di/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  127
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_129_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  214
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_174_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  255
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_190_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  196
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_203_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  145
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_141_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  147
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_266_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  220
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_156_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  208
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_230_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  138
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_302_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  349
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_282_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  292
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_178_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  187
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_303_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  198
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_311_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  228
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_104_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  273
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_222_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  95
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_144_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  232
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_213_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  3
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_253_r2_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  274
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_148_r2_n44.jpg  written to /lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  257
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_35_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  16
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_150_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  293
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_167_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  116
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_187_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  134
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_19_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  153
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_134_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  273
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_229_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  32
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_238_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  167
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_219_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  307
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_361_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  221
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_327_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  320
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_368_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  330
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_184_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  349
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_290_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  172
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_21_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  179
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_124_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  203
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_333_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  208
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_195_r3_n44.jpg  written to disk
+/lustre/projects/hpcsupport/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.pyc  rotating by  254
+/projects/hpcsupport/steinbac/scads/standalone/imagenet_fall2010_118_r3_n44.jpg  written to di

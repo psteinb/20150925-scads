@@ -1,0 +1,7 @@
+id               n_cores  n_files  start_epoch  end_epoch   duration_s
+standalone_1of6  12       296      1443087641   1443087888  247
+standalone_2of6  12       296      1443087641   1443087876  235
+standalone_3of6  12       296      1443087641   1443087763  122
+standalone_4of6  12       296      1443087641   1443087762  121
+standalone_5of6  12       296      1443087762   1443087881  119
+standalone_6of6  12       296      1443087767   1443087885  118
