@@ -17,7 +17,7 @@ python start_spark_lsf.py -m 2G -s /scratch/users/$USER
 # the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
 
 set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} dist_md5sum.py /projects/hpcsupport/steinbac/multiview_data/celegans_cube128_offsetsdefault
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} drive_md5sum.py /projects/hpcsupport/steinbac/multiview_data/celegans_cube128_offsetsdefault
 set -x
 
 SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID

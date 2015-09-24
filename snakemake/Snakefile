@@ -23,8 +23,13 @@ rotate_bootstrapped = []
 for i in range(3):
    rotate_bootstrapped.extend([item[0]+"_c_r"+str(i)+item[1] for item in datasets_split])
 
+noc_rotate_bootstrapped = []
+for i in range(3):
+   noc_rotate_bootstrapped.extend([item[0]+"_r"+str(i)+item[1] for item in datasets_split])
+
 start_time = time.time()
 rotate_report_fname = JOBDIR+"/rotate_report"
+noc_rotate_report_fname = JOBDIR+"/noc_rotate_report"
 color_report_fname = JOBDIR+"/color_report"
 
 print(">> Started at {seconds_since_epoch}".format(seconds_since_epoch=str(start_time)))
@@ -32,6 +37,8 @@ print(">> Started at {seconds_since_epoch}".format(seconds_since_epoch=str(start
 rule final:
     input : rotate_report_fname,color_report_fname
     shell : "echo -n '>> Finished at ';python3 -c 'import time;print(time.time());'"
+    
+
 
 rule color_bootstrap_png:
     input : "{bname}.png"
@@ -58,34 +65,29 @@ rule color_report:
     output: color_report_fname
     shell : "md5sum {input} > {output}"
 
-rule rotate_bootstrap_png:
-    input : "{bname}_c.png",color_report_fname
-    output: expand("{{bname}}_c_{rid}.png", rid=["r"+str(item) for item in range(3)])
-    shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
-
-    
-rule rotate_bootstrap_tif:
-    input : "{bname}_c.tif",color_report_fname
-    output: expand("{{bname}}_c_{rid}.tif", rid=["r"+str(item) for item in range(3)])
-    shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
-
-    
-rule rotate_bootstrap_tiff:
-    input : "{bname}_c.tiff",color_report_fname
-    output: expand("{{bname}}_c_{rid}.tiff", rid=["r"+str(item) for item in range(3)])
-    shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
-
-    
 rule rotate_bootstrap_jpg:
     input : "{bname}_c.jpg",color_report_fname
     output: expand("{{bname}}_c_{rid}.jpg", rid=["r"+str(item) for item in range(3)])
     shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
 
-
 rule rotate_report:
     input : rotate_bootstrapped
     output: rotate_report_fname
     shell : "md5sum {input} > {output}"
+
+rule noc_final:
+    input : noc_rotate_report_fname
+
+rule noc_rotate_bootstrap_jpg:
+    input : "{bname}.jpg"
+    output: expand("{{bname}}_{rid}.jpg", rid=["r"+str(item) for item in range(3)])
+    shell : "python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r0' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r1' {input};python /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_images.py -r -n '_r2' {input}"
+
+rule noc_rotate_report:
+    input : noc_rotate_bootstrapped
+    output: noc_rotate_report_fname
+    shell : "md5sum {input} > {output}"
+
 
 rule expected:
     message: "input files\n{all_inputs}\ncolor_bootstrapped\n{colored}\nrotated_bootstrapped\n{rotated}".format(all_inputs="\n".join(datasets),colored="\n".join(color_bootstrapped),rotated="\n".join(rotate_bootstrapped))

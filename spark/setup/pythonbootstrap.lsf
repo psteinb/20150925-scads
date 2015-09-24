@@ -1,24 +1,24 @@
 #!/bin/sh
 #BSUB -J spark_pythonbootstrap
-#BSUB -W 00:30 
-#BSUB -oo spark_pythonbootstrap_%J.log
+#BSUB -W 00:40 
+#BSUB -oo spark_pythonbootstrap_%J_${LSB_DJOB_NUMPROC}.log
 
 if [[ -z $SPARK_HOME ]];then
 export SPARK_HOME=$HOME/software/spark/1.5.0
 fi
 
 # initialize the nodes
-python /home/steinbac/development/scads_snakemake_vs_spark/spark/setup/start_spark_lsf.py -m 2G -s /scratch/users/$USER
+python /home/steinbac/development/scads_snakemake_vs_spark/spark/setup/start_spark_lsf.py -m 4G -s /scratch/users/$USER
 
 # creates the slaves file, starts the spark master and worker processes using mpirun
 # the "-c" option specifies number of cores per worker
 # -m specifies SPARK_MEMORY
 
 # the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
+CWD=/projects/hpcsupport/steinbac/scads/spark/gpu_${LSB_DJOB_NUMPROC}_jobs
 
-export PYTHONPATH=/home/steinbac/development/scads_snakemake_vs_spark/python:$PYTHONPATH
 set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} /projects/hpcsupport/steinbac/scads/spark/run_${LSB_DJOB_NUMPROC}_jobs/dist_bootstrap.py /projects/hpcsupport/steinbac/scads/spark/run_${LSB_DJOB_NUMPROC}_jobs
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} ${CWD}/drive_bootstrap.py ${CWD} "rotate_only"
 set -x
 
 SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID
