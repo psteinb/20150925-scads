@@ -1,0 +1,31 @@
+Sender: LSF System <hpcadmin@n44>
+Subject: Job 287359: <python /projects/hpcsupport/steinbac/spark-tests/local_pi.py 25000 12> in cluster scuba_cluster1 Done
+
+Job <python /projects/hpcsupport/steinbac/spark-tests/local_pi.py 25000 12> was submitted from host <falcon> by user <steinbac> in cluster <scuba_cluster1>.
+Job was executed on host(s) <12*n44>, in queue <gpu>, as user <steinbac> in cluster <scuba_cluster1>.
+</home/steinbac> was used as the home directory.
+</projects/hpcsupport/steinbac/spark-tests> was used as the working directory.
+Started at Thu Sep 24 21:22:54 2015
+Results reported at Thu Sep 24 21:37:58 2015
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python /projects/hpcsupport/steinbac/spark-tests/local_pi.py 25000 12
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :   6692.74 sec.
+    Max Memory :     66120 MB
+    Max Swap   :     68999 MB
+
+    Max Processes  :        15
+    Max Threads    :        19
+
+The output (if any) follows:
+
+Pi is roughly 3.141628
