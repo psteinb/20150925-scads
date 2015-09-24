@@ -1,10 +1,11 @@
 echo "id n_cores n_files start_epoch end_epoch duration_s" > temp.data
 N_FILES=296
 
-for f in *log;do 
+FILES=$@
+for f in $FILES;do 
     
     ID=${f/.log/}
-    NCORES=`echo $f|cut -f3 -d'_'`
+    NCORES=`echo ${ID}|cut -f3 -d'_'`
     STARTDATE=`egrep -i '^Started' ${f}|sed -e 's/Started at//'`;
     ENDDATE=`egrep -i '^Results reported at' ${f}|sed -e 's/Results reported at//'`;
 

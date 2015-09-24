@@ -1,0 +1,200 @@
+Sender: LSF System <hpcadmin@n41>
+Subject: Job 282394: <spark_pythonbootstrap> in cluster scuba_cluster1 Done
+
+Job <spark_pythonbootstrap> was submitted from host <falcon> by user <steinbac> in cluster <scuba_cluster1>.
+Job was executed on host(s) <12*n41>, in queue <gpu>, as user <steinbac> in cluster <scuba_cluster1>.
+                            <12*n43>
+                            <12*n44>
+                            <6*n42>
+</home/steinbac> was used as the home directory.
+</projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs> was used as the working directory.
+Started at Thu Sep 24 12:30:46 2015
+Results reported at Thu Sep 24 12:41:04 2015
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/sh
+#BSUB -J spark_pythonbootstrap
+#BSUB -W 00:40 
+#BSUB -oo spark_pythonbootstrap_%J_${LSB_DJOB_NUMPROC}.log
+
+if [[ -z $SPARK_HOME ]];then
+export SPARK_HOME=$HOME/software/spark/1.5.0
+fi
+
+# initialize the nodes
+python /home/steinbac/development/scads_snakemake_vs_spark/spark/setup/start_spark_lsf.py -m 4G -s /scratch/users/$USER
+
+# creates the slaves file, starts the spark master and worker processes using mpirun
+# the "-c" option specifies number of cores per worker
+# -m specifies SPARK_MEMORY
+
+# the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
+CWD=/projects/hpcsupport/steinbac/scads/spark/gpu_${LSB_DJOB_NUMPROC}_jobs
+
+STARTEPOCH=`date +%s`
+set -x
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} ${CWD}/drive_bootstrap.py ${CWD} "rotate_only"
+set +x
+ENDEPOCH=`date +%s`
+echo "spark-submit took " $((ENDEPOCH-STARTEPOCH)) " s"
+
+SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID
+$SPARK_HOME/sbin/stop-all.sh
+$SPARK_HOME/sbin/stop-slaves.sh
+echo "cleanup slaves file $SPARK_SLAVES"
+rm -v $SPARK_SLAVES
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time   :     23.86 sec.
+    Max Memory :       697 MB
+    Max Swap   :     14281 MB
+
+    Max Processes  :         6
+    Max Threads    :       139
+
+The output (if any) follows:
+
+>> LSB_MCPU_HOSTS n41 12 n43 12 n44 12 n42 6 
+>> found hosts:  ['n41', 'n43', 'n44', 'n42']
+master command  /sw/users/steinbac/software/spark/1.5.0/sbin/start-master.sh
+starting org.apache.spark.deploy.master.Master, logging to /lustre/projects/hpcsupport/steinbac/software/spark/spark-1.5.0-bin-hadoop2.6/sbin/../logs/spark-steinbac-org.apache.spark.deploy.master.Master-1-n41.out
+
+master set to  n41
+>> slave 0/4	ssh n41 /sw/users/steinbac/software/spark/1.5.0/sbin/stop-slaves.sh
+localhost: no org.apache.spark.deploy.worker.Worker to stop
+
+>> slave 0/4	ssh n41 /sw/users/steinbac/software/spark/1.5.0/sbin/start-slave.sh  -c 12 -m 4G spark://n41:7077 &
+starting org.apache.spark.deploy.worker.Worker, logging to /lustre/projects/hpcsupport/steinbac/software/spark/spark-1.5.0-bin-hadoop2.6/sbin/../logs/spark-steinbac-org.apache.spark.deploy.worker.Worker-1-n41.out
+
+>> slave 1/4	ssh n43 /sw/users/steinbac/software/spark/1.5.0/sbin/stop-slaves.sh
+localhost: no org.apache.spark.deploy.worker.Worker to stop
+
+>> slave 1/4	ssh n43 /sw/users/steinbac/software/spark/1.5.0/sbin/start-slave.sh  -c 12 -m 4G spark://n41:7077 &
+starting org.apache.spark.deploy.worker.Worker, logging to /lustre/projects/hpcsupport/steinbac/software/spark/spark-1.5.0-bin-hadoop2.6/sbin/../logs/spark-steinbac-org.apache.spark.deploy.worker.Worker-1-n43.out
+
+>> slave 2/4	ssh n44 /sw/users/steinbac/software/spark/1.5.0/sbin/stop-slaves.sh
+localhost: stopping org.apache.spark.deploy.worker.Worker
+
+>> slave 2/4	ssh n44 /sw/users/steinbac/software/spark/1.5.0/sbin/start-slave.sh  -c 12 -m 4G spark://n41:7077 &
+starting org.apache.spark.deploy.worker.Worker, logging to /lustre/projects/hpcsupport/steinbac/software/spark/spark-1.5.0-bin-hadoop2.6/sbin/../logs/spark-steinbac-org.apache.spark.deploy.worker.Worker-1-n44.out
+
+>> slave 3/4	ssh n42 /sw/users/steinbac/software/spark/1.5.0/sbin/stop-slaves.sh
+localhost: stopping org.apache.spark.deploy.worker.Worker
+
+>> slave 3/4	ssh n42 /sw/users/steinbac/software/spark/1.5.0/sbin/start-slave.sh  -c 6 -m 4G spark://n41:7077 &
+starting org.apache.spark.deploy.worker.Worker, logging to /lustre/projects/hpcsupport/steinbac/software/spark/spark-1.5.0-bin-hadoop2.6/sbin/../logs/spark-steinbac-org.apache.spark.deploy.worker.Worker-1-n42.out
+
++ /sw/users/steinbac/software/spark/1.5.0/bin/spark-submit --master spark://n41:7077 --total-executor-cores 42 /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs rotate_only
+[drive_bootstrap.py] distributing 592 files from /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+15/09/24 12:31:03 INFO SparkContext: Running Spark version 1.5.0
+15/09/24 12:31:03 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+15/09/24 12:31:03 INFO SecurityManager: Changing view acls to: steinbac
+15/09/24 12:31:03 INFO SecurityManager: Changing modify acls to: steinbac
+15/09/24 12:31:03 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(steinbac); users with modify permissions: Set(steinbac)
+15/09/24 12:31:04 INFO Slf4jLogger: Slf4jLogger started
+15/09/24 12:31:04 INFO Remoting: Starting remoting
+15/09/24 12:31:04 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriver@192.168.0.41:48225]
+15/09/24 12:31:04 INFO Utils: Successfully started service 'sparkDriver' on port 48225.
+15/09/24 12:31:04 INFO SparkEnv: Registering MapOutputTracker
+15/09/24 12:31:04 INFO SparkEnv: Registering BlockManagerMaster
+15/09/24 12:31:04 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-c55cb994-5f6f-4f35-8d4c-b90079a6d3fb
+15/09/24 12:31:04 INFO MemoryStore: MemoryStore started with capacity 530.0 MB
+15/09/24 12:31:04 INFO HttpFileServer: HTTP File server directory is /tmp/spark-c0cd5f5f-ba08-47d6-a4b2-b2be134e2642/httpd-5e8d3189-32ba-42cb-85f3-26d84e48d318
+15/09/24 12:31:04 INFO HttpServer: Starting HTTP Server
+15/09/24 12:31:04 INFO Utils: Successfully started service 'HTTP file server' on port 34778.
+15/09/24 12:31:04 INFO SparkEnv: Registering OutputCommitCoordinator
+15/09/24 12:31:05 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+15/09/24 12:31:05 INFO SparkUI: Started SparkUI at http://192.168.0.41:4040
+15/09/24 12:31:05 INFO Utils: Copying /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py to /tmp/spark-c0cd5f5f-ba08-47d6-a4b2-b2be134e2642/userFiles-d34cc3ef-7871-4040-8700-8ef978f62839/drive_bootstrap.py
+15/09/24 12:31:05 INFO SparkContext: Added file file:/projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py at http://192.168.0.41:34778/files/drive_bootstrap.py with timestamp 1443090665196
+15/09/24 12:31:05 WARN MetricsSystem: Using default name DAGScheduler for source because spark.app.id is not set.
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Connecting to master spark://n41:7077...
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20150924123105-0000
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor added: app-20150924123105-0000/0 on worker-20150924123057-192.168.0.43-36680 (192.168.0.43:36680) with 12 cores
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: Granted executor ID app-20150924123105-0000/0 on hostPort 192.168.0.43:36680 with 12 cores, 1024.0 MB RAM
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor added: app-20150924123105-0000/1 on worker-20150924123052-192.168.0.41-47700 (192.168.0.41:47700) with 12 cores
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: Granted executor ID app-20150924123105-0000/1 on hostPort 192.168.0.41:47700 with 12 cores, 1024.0 MB RAM
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor added: app-20150924123105-0000/2 on worker-20150924123100-192.168.0.44-46746 (192.168.0.44:46746) with 12 cores
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: Granted executor ID app-20150924123105-0000/2 on hostPort 192.168.0.44:46746 with 12 cores, 1024.0 MB RAM
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor added: app-20150924123105-0000/3 on worker-20150924123101-192.168.0.42-55383 (192.168.0.42:55383) with 6 cores
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: Granted executor ID app-20150924123105-0000/3 on hostPort 192.168.0.42:55383 with 6 cores, 1024.0 MB RAM
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/0 is now RUNNING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/1 is now RUNNING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/2 is now RUNNING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/3 is now RUNNING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/3 is now LOADING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/1 is now LOADING
+15/09/24 12:31:05 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 43333.
+15/09/24 12:31:05 INFO NettyBlockTransferService: Server created on 43333
+15/09/24 12:31:05 INFO BlockManagerMaster: Trying to register BlockManager
+15/09/24 12:31:05 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.0.41:43333 with 530.0 MB RAM, BlockManagerId(driver, 192.168.0.41, 43333)
+15/09/24 12:31:05 INFO BlockManagerMaster: Registered BlockManager
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/0 is now LOADING
+15/09/24 12:31:05 INFO AppClient$ClientEndpoint: Executor updated: app-20150924123105-0000/2 is now LOADING
+15/09/24 12:31:05 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+15/09/24 12:31:05 INFO Utils: /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py has been previously copied to /tmp/spark-c0cd5f5f-ba08-47d6-a4b2-b2be134e2642/userFiles-d34cc3ef-7871-4040-8700-8ef978f62839/drive_bootstrap.py
+15/09/24 12:31:05 INFO SparkContext: Added file /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py at http://192.168.0.41:34778/files/drive_bootstrap.py with timestamp 1443090665960
+15/09/24 12:31:05 INFO Utils: Copying /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.py to /tmp/spark-c0cd5f5f-ba08-47d6-a4b2-b2be134e2642/userFiles-d34cc3ef-7871-4040-8700-8ef978f62839/bootstrap_utils.py
+15/09/24 12:31:05 INFO SparkContext: Added file /home/steinbac/development/scads_snakemake_vs_spark/python/bootstrap_utils.py at http://192.168.0.41:34778/files/bootstrap_utils.py with timestamp 1443090665968
+15/09/24 12:31:06 INFO SparkContext: Starting job: reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114
+15/09/24 12:31:06 INFO DAGScheduler: Got job 0 (reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114) with 2 output partitions
+15/09/24 12:31:06 INFO DAGScheduler: Final stage: ResultStage 0(reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114)
+15/09/24 12:31:06 INFO DAGScheduler: Parents of final stage: List()
+15/09/24 12:31:06 INFO DAGScheduler: Missing parents: List()
+15/09/24 12:31:06 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[1] at reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114), which has no missing parents
+15/09/24 12:31:06 INFO MemoryStore: ensureFreeSpace(5000) called with curMem=0, maxMem=555755765
+15/09/24 12:31:06 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 4.9 KB, free 530.0 MB)
+15/09/24 12:31:06 INFO MemoryStore: ensureFreeSpace(3273) called with curMem=5000, maxMem=555755765
+15/09/24 12:31:06 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 3.2 KB, free 530.0 MB)
+15/09/24 12:31:06 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 192.168.0.41:43333 (size: 3.2 KB, free: 530.0 MB)
+15/09/24 12:31:06 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:861
+15/09/24 12:31:06 INFO DAGScheduler: Submitting 2 missing tasks from ResultStage 0 (PythonRDD[1] at reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114)
+15/09/24 12:31:06 INFO TaskSchedulerImpl: Adding task set 0.0 with 2 tasks
+15/09/24 12:31:08 INFO SparkDeploySchedulerBackend: Registered executor: AkkaRpcEndpointRef(Actor[akka.tcp://sparkExecutor@192.168.0.42:45124/user/Executor#1730162258]) with ID 3
+15/09/24 12:31:08 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, 192.168.0.42, PROCESS_LOCAL, 26872 bytes)
+15/09/24 12:31:08 INFO TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1, 192.168.0.42, PROCESS_LOCAL, 26872 bytes)
+15/09/24 12:31:08 INFO SparkDeploySchedulerBackend: Registered executor: AkkaRpcEndpointRef(Actor[akka.tcp://sparkExecutor@192.168.0.41:38785/user/Executor#-365036976]) with ID 1
+15/09/24 12:31:08 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.0.42:41749 with 530.0 MB RAM, BlockManagerId(3, 192.168.0.42, 41749)
+15/09/24 12:31:08 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.0.41:44612 with 530.0 MB RAM, BlockManagerId(1, 192.168.0.41, 44612)
+15/09/24 12:31:08 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 192.168.0.42:41749 (size: 3.2 KB, free: 530.0 MB)
+15/09/24 12:31:10 INFO SparkDeploySchedulerBackend: Registered executor: AkkaRpcEndpointRef(Actor[akka.tcp://sparkExecutor@192.168.0.43:60304/user/Executor#-424088338]) with ID 0
+15/09/24 12:31:10 INFO SparkDeploySchedulerBackend: Registered executor: AkkaRpcEndpointRef(Actor[akka.tcp://sparkExecutor@192.168.0.44:58808/user/Executor#-2035610816]) with ID 2
+15/09/24 12:31:11 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.0.43:51747 with 530.0 MB RAM, BlockManagerId(0, 192.168.0.43, 51747)
+15/09/24 12:31:11 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.0.44:45332 with 530.0 MB RAM, BlockManagerId(2, 192.168.0.44, 45332)
+15/09/24 12:41:00 INFO TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 592015 ms on 192.168.0.42 (1/2)
+15/09/24 12:41:00 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 592424 ms on 192.168.0.42 (2/2)
+15/09/24 12:41:00 INFO DAGScheduler: ResultStage 0 (reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114) finished in 594.094 s
+15/09/24 12:41:00 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+15/09/24 12:41:00 INFO DAGScheduler: Job 0 finished: reduce at /projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py:114, took 594.275554 s
+15/09/24 12:41:00 INFO SparkUI: Stopped Spark web UI at http://192.168.0.41:4040
+15/09/24 12:41:00 INFO DAGScheduler: Stopping DAGScheduler
+15/09/24 12:41:00 INFO SparkDeploySchedulerBackend: Shutting down all executors
+15/09/24 12:41:00 INFO SparkDeploySchedulerBackend: Asking each executor to shut down
+15/09/24 12:41:00 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+15/09/24 12:41:00 INFO MemoryStore: MemoryStore cleared
+15/09/24 12:41:00 INFO BlockManager: BlockManager stopped
+15/09/24 12:41:00 INFO BlockManagerMaster: BlockManagerMaster stopped
+15/09/24 12:41:00 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+15/09/24 12:41:00 INFO SparkContext: Successfully stopped SparkContext
+15/09/24 12:41:00 INFO RemoteActorRefProvider$RemotingTerminator: Shutting down remote daemon.
+15/09/24 12:41:00 INFO RemoteActorRefProvider$RemotingTerminator: Remote daemon shut down; proceeding with flushing remote transports.
+15/09/24 12:41:00 INFO RemoteActorRefProvider$RemotingTerminator: Remoting shut down.
+/projects/hpcsupport/steinbac/scads/spark/gpu_42_jobs/drive_bootstrap.py  took  598.405632973  s
+15/09/24 12:41:01 INFO ShutdownHookManager: Shutdown hook called
+15/09/24 12:41:01 INFO ShutdownHookManager: Deleting directory /tmp/spark-c0cd5f5f-ba08-47d6-a4b2-b2be134e2642
++ set +x
+spark-submit took  600  s
+localhost: stopping org.apache.spark.deploy.worker.Worker
+stopping org.apache.spark.deploy.master.Master
+localhost: no org.apache.spark.deploy.worker.Worker to stop
+cleanup slaves file /scratch/users/steinbac/slaves_282394
+removed `/scratch/users/steinbac/slaves_282394'
