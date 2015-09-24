@@ -5,6 +5,18 @@ author: Peter Steinbach
 date: September 25, 2015
 ---
 
+# Outline
+
+## 
+
+<div style="font-size: 2em;text-align: center;">
+1. Background
+
+2. Bazaar
+
+3. Cathedral
+</div>
+
 # 
 
 ## MPI CBG
@@ -182,7 +194,7 @@ $ bsub -o hw.log -q short -n 1 echo "Hello World!"
 
 ## Snakemake
 
-![bitbucket.org/johanneskoester/snakemake](images/snakemake_bitbucket_screenshot.png)
+![bitbucket.org/johanneskoester/snakemake](img/snakemake_bitbucket_screenshot.png)
 
 [columns,class="row vertical-align"]
 
@@ -230,11 +242,16 @@ rule plot:
 
 ## A simple example
 
-<img width="1000" src="images/simple.svg">
+<center>
+ <object type="image/svg+xml" data="img/simple.svg" width="1000" border="0" style="background-color: #FFFFFF;"> 
+ </object>
+</center>
+<!-- ## A simple example -->
 
-## A simple example
-
-<img width="1000" src="images/simple.svg">
+<!-- <object type="image/svg+xml" data="img/simple.svg" -->
+<!-- width="1000" border="0" style="background-color: #FFFFFF;"> -->
+<!-- </object> -->
+<!-- <img width="1000" src="img/simple.svg"> -->
 
 ## A simple Snakemake file
 
@@ -414,14 +431,17 @@ But sometimes ... you need a cathedral!
 
 Architectural Motivation
 
-![from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 2)](img/spark_rdd_fig2.png)
+
+ <object type="image/svg+xml" data="img/spark_rdd_fig2.svg" width="800" border="0" style="background-color: #FFFFFF;"> 
+ </object>
+ from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 2)
 
 
 [/column]
 
 [column,class="col-xs-6"]
 
-Chasing Instructions
+Operation Lineage
 
 ![from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 5)](img/spark_rdd_fig5.png)
 
