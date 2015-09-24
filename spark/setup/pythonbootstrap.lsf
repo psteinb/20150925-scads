@@ -17,9 +17,12 @@ python /home/steinbac/development/scads_snakemake_vs_spark/spark/setup/start_spa
 # the specific example runs spark's pi estimation with a slices = 100 (first and only argument)
 CWD=/projects/hpcsupport/steinbac/scads/spark/gpu_${LSB_DJOB_NUMPROC}_jobs
 
-set +x
-$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} ${CWD}/drive_bootstrap.py ${CWD} "rotate_only"
+STARTEPOCH=`date +%s`
 set -x
+$SPARK_HOME/bin/spark-submit --master spark://$HOSTNAME:7077 --total-executor-cores ${LSB_DJOB_NUMPROC} ${CWD}/drive_bootstrap.py ${CWD} "rotate_only"
+set +x
+ENDEPOCH=`date +%s`
+echo "spark-submit took " $((ENDEPOCH-STARTEPOCH)) " s"
 
 SPARK_SLAVES=/scratch/users/$USER/slaves_$LSB_JOBID
 $SPARK_HOME/sbin/stop-all.sh

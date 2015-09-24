@@ -76,6 +76,13 @@ if  __name__ == "__main__":
     cnt = 0
     for t in hosts_and_cores:
         node,recv_cores = t.split()
+        
+        #stop slaves first (TODO: need to improve that as we might reuse slaves belonging to this user)
+        cmd = "ssh %s %s/stop-slaves.sh" % (node,spark_sbin)
+        output = subprocess.check_output(cmd.split())
+        print ">> slave %i/%i\t%s" % (cnt,n_slaves_used,cmd)
+        print output
+        
         cmd = "ssh %s %s/start-slave.sh  -c %i" % (node,spark_sbin,int(recv_cores))
         if mem:
             cmd += " -m %s" % (mem.upper())
