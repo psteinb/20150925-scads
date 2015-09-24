@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Peter Steinbach" />
+  <meta name="dcterms.date" content="2015-09-25" />
+  <title>Parallel Processing Pipelines</title>
+  <meta name="description" content="Parallel Processing Pipelines">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="my_reveal.css"/>
+    <style type="text/css">code{white-space: pre;}</style>
+    <link rel="stylesheet" href="lib/css/table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }.css">
+    <link rel="stylesheet" href="reveal.js/css/theme/black.css" id="theme">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Parallel Processing Pipelines</h1>
+  <h2 class="subtitle">- A User's Exploration with Apache Spark and Snakemake -</h1>
+    <h3 class="author">Peter Steinbach</h2>
+    <h3 class="date">September 25, 2015</h3>
+</section>
+
+<section id="this-is-open-source" class="slide level1">
+<h1>This is open source!</h1>
+<figure>
+<img src="img/github_repo.png" />
+</figure>
+<p><a href="https://github.com/psteinb/20150925-scads">github.com/psteinb/20150925-scads</a></p>
+</section>
+<section id="outline" class="slide level1">
+<h1>Outline</h1>
+<section id="section" class="level2">
+<h2></h2>
+<div style="font-size: 2.5em;text-align: center;">
+<ol type="1">
+<li><p>Background</p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar">Bazaar</a></p></li>
+<li><a href="https://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar">Cathedral</a></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="section-1" class="slide level1">
+<h1></h1>
+<section id="max-planck-institute-of-molecular-cell-biology-and-genetics" class="level2">
+<h2>Max Planck Institute of Molecular Cell Biology and Genetics</h2>
+<div class="row vertical-align">
+<div class="col-xs-8">
+<figure>
+<img src="img/1280px-MPI-CBG_building_outside_4pl.jpg" alt="(CC BY-SA 3.0, Pleple2000)" /><figcaption>(CC BY-SA 3.0, Pleple2000)</figcaption>
+</figure>
+</div>
+<div class="col-xs-4">
+<ul>
+<li>500 staff</li>
+<li>founded 2001</li>
+<li>cell biology</li>
+<li>genomics</li>
+<li>systems biology</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="standard-biological-instruments" class="level2">
+<h2>Standard Biological Instruments</h2>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<p><strong>Genome Sequencer</strong></p>
+<figure>
+<img src="img/HiSeq_2000_800x.jpg" alt="Illumina HiSeq2000" /><figcaption><a href="http://web.qbi.uq.edu.au/labs/gseq/instruments/">Illumina HiSeq2000</a></figcaption>
+</figure>
+</div>
+<div class="col-xs-6">
+<p><strong>Standard Microscopes</strong></p>
+<figure>
+<img src="img/MPI-SD3_x521.jpg" alt="Zeiss Spinning Disk" /><figcaption><a href="http://www.biodip.de/wiki/SD3_-_Zeiss_Spinning_Disc">Zeiss Spinning Disk</a></figcaption>
+</figure>
+</div>
+</div>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<ul>
+<li>commercial system</li>
+<li>25 Mbp/s</li>
+<li>a lot of secondary large data</li>
+</ul>
+</div>
+<div class="col-xs-6">
+<ul>
+<li>commercial systems</li>
+<li>100 MB/s data production</li>
+<li>operated in bursts</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="microscopes" class="level2">
+<h2>microscopes</h2>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<p><strong>Zeiss Lightsheet Z.1</strong></p>
+<figure>
+<img src="img/LZ1_-_Zeiss_Lightsheet_Z.1_600p.jpg" alt="MPI-CBG LMF" /><figcaption><a href="http://www.biodip.de/wiki/LZ1_-_Zeiss_Lightsheet_Z.1">MPI-CBG LMF</a></figcaption>
+</figure>
+</div>
+<div class="col-xs-6">
+<p><strong>T-SPIM Farm</strong></p>
+<figure>
+<img src="img/2I_1D_OpenSPIM_farm_02_x450_cropped.jpg" alt="openspim.org" /><figcaption><a href="http://openspim.org/Gallery">openspim.org</a></figcaption>
+</figure>
+</div>
+</div>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<ul>
+<li>commercial system (2 inhouse)</li>
+<li>120 MB/s data production</li>
+<li>at best: operated 24/7</li>
+</ul>
+</div>
+<div class="col-xs-6">
+<ul>
+<li>custom systems (&gt;6 inhouse)</li>
+<li>850 MB/s data production</li>
+<li>at best: operated 24/7</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="parallel-processing-essential" class="level2">
+<h2>Parallel Processing Essential!</h2>
+<div style="text-align: center;">
+<figure>
+<img src="img/college_student_computer.jpg" alt="flickr.com (CC BY-SA 2.0)" /><figcaption><a href="https://www.flickr.com/photos/83633410@N07/7658225516/in/photostream/">flickr.com</a> (CC BY-SA 2.0)</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="section-2" class="slide level1 section" data-background="img/On_the_road_cc_sa_2d0.jpg">
+<h1></h1>
+<section id="on-the-road-to-cluster-computing" class="level2 h2" style="font-size: 2em;">
+<h2>On the Road to Cluster Computing</h2>
+</section>
+<section id="who-has-ever-worked-on-hpc-cluster" class="level2 h2" style="font-size: 2em;">
+<h2>Who has ever worked on HPC cluster?</h2>
+</section>
+</section>
+<section id="section-3" class="slide level1">
+<h1></h1>
+<section id="madmax" class="level2">
+<h2>Madmax</h2>
+<div class="row vertical-align">
+<div class="col-xs-4">
+<figure>
+<img src="img/madmax_high.jpg" alt="MPI CBG" /><figcaption>MPI CBG</figcaption>
+</figure>
+</div>
+<div class="col-xs-8">
+<ul>
+<li><p>44 nodes</p>
+<ul>
+<li><p>2x6 cores (Sandy Bridge)</p></li>
+<li><p>128 GB RAM</p></li>
+<li><p>1 TB local drive</p></li>
+</ul></li>
+<li><p>200 TB Lustre parallel file system (400 MB/s to each node)</p></li>
+<li><p>jobs are manually defined by batch system (LSF)</p></li>
+</ul>
+<pre><code>$ bsub -o hw.log -q short -n 1 echo &quot;Hello World!&quot;</code></pre>
+</div>
+</div>
+</section>
+<section id="the-daily-torture" class="level2">
+<h2>The Daily Torture</h2>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<figure>
+<img src="img/600px-Punishment_sisyph.jpg" alt="Sisyphus (1548–49) by Tizian (public domain)" /><figcaption><a href="https://en.wikipedia.org/wiki/Sisyphus">Sisyphus (1548–49) by Tizian</a> (public domain)</figcaption>
+</figure>
+</div>
+<div class="col-xs-6">
+<ul>
+<li><p>bsub made for large (MPI driven) applications</p></li>
+<li><p>data-driven workflows &quot;hard(er)&quot; to implement</p>
+<ul>
+<li><p>soon: bsub wrapped by bash scripts</p>
+<ul>
+<li><p>eventually: bsub scripts wrapped by other scripts</p></li>
+<li><p>or: bash scripts generating bash scripts</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="warning-error-prone-not-fun-not-productive" class="level3">
+<h3>Warning: error prone, not fun, not productive!</h3>
+</div>
+</div>
+</section>
+</section>
+<section id="where-many-hpc-users-come-from" class="level2">
+<h2>Where many HPC users come from</h2>
+<div style="font-size: 1.2em">
+<pre><code>1. bsub &lt;opts&gt; /path/to/app-A in.ext1 out.ext2
+
+2. bsub &lt;opts&gt; /path/to/app-B *.ext2 summary.ext3
+
+3. bsub &lt;opts&gt; /path/to/app-C *.ext3 results.final</code></pre>
+</div>
+<ul>
+<li><p><strong>pipelines are everywhere!</strong> (data sciences)</p></li>
+<li><p>most of the above with high influx of *.ext1 files</p></li>
+<li><p>more complex configurations on top (domain parameters, number of threads, gpus)</p></li>
+</ul>
+</section>
+<section id="it-would-be-nice-to-have" class="level2">
+<h2>It would be nice to have</h2>
+<ul>
+<li><p>lightweight</p></li>
+<li><p>rule based <br> (most pipelines consist of fixed steps, input/parameters is what changes)</p></li>
+<li><p>text based (for <a href="git-scm.org">version control</a>)</p></li>
+<li><p>easy to extend and flexible</p></li>
+</ul>
+<div class="fragment" style="font-size:2em;text-align: center;">
+<p><strong><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/Home">Snakemake</a></strong></p>
+</div>
+</section>
+</section>
+<section id="section-4" class="slide level1">
+<h1></h1>
+<section id="snakemake" class="level2">
+<h2>Snakemake</h2>
+<figure>
+<img src="img/snakemake_bitbucket_screenshot.png" alt="bitbucket.org/johanneskoester/snakemake" /><figcaption>bitbucket.org/johanneskoester/snakemake</figcaption>
+</figure>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<ul>
+<li>free and open-source</li>
+<li>written in python3</li>
+<li>motivated by GNU make</li>
+</ul>
+</div>
+<div class="col-xs-6">
+<ul>
+<li>write <em>Snakefile</em> in Domain Specific Language</li>
+<li>Snakefile contains rules to evaluate</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="domain-specific-language" class="level2">
+<h2>Domain Specific Language?</h2>
+<pre><code>rule targets:
+    input:
+        &#39;plots/dataset1.pdf&#39;, 
+        &#39;plots/dataset2.pdf&#39;
+
+rule plot:
+    input:
+        &#39;raw/{dataset}.csv&#39;
+    output:
+        &#39;plots/{dataset}.pdf&#39;
+    shell:
+        &#39;somecommand {input} {output}&#39;</code></pre>
+<ul>
+<li><p>logic based on input/output files (here through pseudo-rule &quot;targets&quot;)</p></li>
+<li><p>directed acyclic graph build up</p></li>
+<li><p>graph can be decomposed (independent/dependent tasks)</p></li>
+</ul>
+</section>
+<section id="a-simple-example" class="level2">
+<h2>A simple example</h2>
+<center>
+<object type="image/svg+xml" data="img/simple.svg" width="1000" border="0" style="background-color: #FFFFFF;"> </object>
+</center>
+<!-- ## A simple example -->
+<!-- <object type="image/svg+xml" data="img/simple.svg" -->
+<!-- width="1000" border="0" style="background-color: #FFFFFF;"> -->
+<!-- </object> -->
+<!-- <img width="1000" src="img/simple.svg"> -->
+</section>
+<section id="a-simple-snakemake-file" class="level2">
+<h2>A simple Snakemake file</h2>
+<div style="max-height: 100%;">
+<pre class="sourceCode python"><code class="sourceCode python">$ cat Snakefile
+DATAFILES = [<span class="st">&#39;dataset-01.dat&#39;</span>,<span class="st">&#39;dataset-02.dat&#39;</span>]
+OUTPUT = [ item.replace(<span class="st">&quot;.dat&quot;</span>,<span class="st">&quot;.zip&quot;</span>) <span class="kw">for</span> item in DATAFILES ]
+
+rule final:
+    <span class="dt">input</span>: <span class="st">&#39;bag.tar&#39;</span>
+
+rule compress:
+    <span class="dt">input</span>:  <span class="st">&#39;</span><span class="ot">{name}</span><span class="st">.dat&#39;</span>
+    output: <span class="st">&#39;</span><span class="ot">{name}</span><span class="st">.zip&#39;</span>
+    shell:  <span class="st">&#39;zip </span><span class="ot">{output}</span><span class="st"> </span><span class="ot">{input}</span><span class="st">&#39;</span>
+
+rule bag:
+    <span class="dt">input</span>:  OUTPUT
+    output: <span class="st">&#39;bag.tar&#39;</span>
+    shell:  <span class="st">&#39;tar cf </span><span class="ot">{output}</span><span class="st"> </span><span class="ot">{input}</span><span class="st">&#39;</span></code></pre>
+</div>
+</section>
+<section id="running-the-snakefile" class="level2">
+<h2>Running the Snakefile</h2>
+<pre><code>$ snakemake -n -r #let&#39;s see what&#39;s going on
+$ snakemake #run it
+$ snakemake --dag | dot -Tpdf &gt; dag.pdf #produce graph</code></pre>
+<p>See <a href="https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples/Snakefile">Snakefile</a> in <a href="https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples">examples</a> to this presentation!</p>
+</section>
+<section id="features" class="level2">
+<h2>Features</h2>
+<ul>
+<li><p>custom command line args can be handed over to</p>
+<pre><code>$ snakemake -s cli_args.snake --config inputfiles=&quot;*dat&quot;</code></pre></li>
+<li><p>snakemake is cluster aware</p>
+<pre><code>$ snakemake --cluster &quot;bsub -n 32&quot;</code></pre></li>
+<li><p>snakemake <em>params</em> to decorate rules for cluster execution</p>
+<pre><code>rule:
+input:  ...
+output: ...
+params: runtime=&quot;04:00&quot;
+shell: ...</code></pre></li>
+</ul>
+<pre><code>$ snakemake --cluster &quot;bsub -W {params.runtime}&quot;</code></pre>
+</section>
+<section id="advanced-features" class="level2">
+<h2>Advanced Features</h2>
+<ul>
+<li>benchmarking</li>
+</ul>
+<pre><code>rule benchmark_command:
+    input:
+        &quot;path/to/input.{sample}.txt&quot;
+    output:
+        &quot;path/to/output.{sample}.txt&quot;
+    benchmark:
+        &quot;benchmarks/somecommand/{sample}.json&quot;
+    shell:
+        &quot;somecommand {input} {output}&quot;</code></pre>
+<pre><code>$ snakemake --benchmark-repeats &lt;number&gt;</code></pre>
+</section>
+<section id="section-5" class="level2">
+<h2></h2>
+<ul>
+<li>Embedded Python</li>
+</ul>
+<pre><code>rule compose_merge:
+    input:
+        expand(&#39;assembly/{sample}/transcripts.gtf&#39;, sample=SAMPLES)
+    output:
+        txt=&#39;assembly/assemblies.txt&#39;
+    run:
+        with open(output.txt, &#39;w&#39;) as out:
+            print(*input, sep=&quot;\n&quot;, file=out)</code></pre>
+</section>
+<section id="section-6" class="level2">
+<h2></h2>
+<ul>
+<li>Embedded R</li>
+</ul>
+<pre><code>from snakemake.utils import R
+
+SOMECONSTANT = 42
+
+rule:
+    input:  ...
+    output: ...
+    run:
+        R(&quot;&quot;&quot;
+        # Access any global/local variables with the braces notation
+        sqrt({SOMECONSTANT});
+        # be sure to mask braces used in R control flow by doubling them:
+        if(TRUE) {{
+            # do something
+        }}
+        &quot;&quot;&quot;)
+</code></pre>
+</section>
+<section id="resources" class="level2">
+<h2>Resources</h2>
+<ul>
+<li><p><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/Documentation">good documentation</a></p></li>
+<li><p><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/Examples">basic examples</a> (Cufflinks, Building a C Program, miRNA Analysis Pipeline, ...)</p></li>
+<li><p><a href="https://groups.google.com/forum/#!forum/snakemake">alive google groups forum</a></p></li>
+<li><p><a href="https://bitbucket.org/johanneskoester/snakemake-workflows">repo with ready made snakefiles</a> (mostly bioinformatics workflows, open for contributions)</p></li>
+<li><p>quite some talks, papers ...</p></li>
+</ul>
+</section>
+<section id="snakemake-summary" class="level2">
+<h2>Snakemake Summary</h2>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<ul>
+<li><p>great tool (also for programming beginners)</p></li>
+<li><p>free and open-source</p></li>
+<li><p>great community</p></li>
+<li><p>great documentation</p></li>
+</ul>
+</div>
+<div class="col-xs-6">
+<figure>
+<img src="img/Bd_bazaar.jpg" alt="Bd bazaar (FrancisTyers, CC BY-SA-3.0)" /><figcaption>Bd bazaar (<a href="https://commons.wikimedia.org/wiki/File:Bd_bazaar.jpg">FrancisTyers</a>, CC BY-SA-3.0)</figcaption>
+</figure>
+</div>
+</div>
+<p><strong>But sometimes ... you need a cathedral!</strong></p>
+</section>
+</section>
+<section id="section-7" class="slide level1">
+<h1></h1>
+<section id="section-8" class="level2">
+<h2><img src="img/spark-logo_halfinverted.png" /></h2>
+<ul>
+<li><p>distributed computing framework</p></li>
+<li><p>requires a cluster manager (native, Yarn, Mesos)</p></li>
+<li><p>requires a distributed storage system (native, HDFS, Cassandra, Amazon S3)</p></li>
+</ul>
+<div style="text-align: center;">
+<figure>
+<img src="img/spark-stack.png" alt="Spark Software Stack" /><figcaption><a href="https://spark.apache.org/">Spark</a> Software Stack</figcaption>
+</figure>
+</div>
+</section>
+<section id="spark-core-resilient-distributed-datasets" class="level2">
+<h2>Spark Core = Resilient Distributed Datasets</h2>
+<div class="row vertical-align">
+<div class="col-xs-6">
+<p><em>Architectural Motivation</em></p>
+<p>(nothing-shared cluster)</p>
+<figure>
+<img src="img/spark_rdd_fig2_larger.png" alt="from (Zaharia et al, 2012, figure 5)" /><figcaption>from (<a href="http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf">Zaharia et al, 2012</a>, figure 5)</figcaption>
+</figure>
+</div>
+<div class="col-xs-6">
+<p><em>Operation Lineage</em></p>
+<p>(deferred dispatch, fault taulerance)</p>
+<figure>
+<img src="img/spark_rdd_fig5_larger.png" alt="from (Zaharia et al, 2012, figure 5)" /><figcaption>from (<a href="http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf">Zaharia et al, 2012</a>, figure 5)</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="spark-code" class="level2">
+<h2>Spark Code</h2>
+<ul>
+<li><p>spark written in Scala (JVM based multi-paradigm language)</p></li>
+<li><p>supports python, R and Java</p></li>
+<li><p>code very simple, provides primitives for most (all) data-parallel tasks</p></li>
+<li><p>example:</p></li>
+</ul>
+<center>
+<pre><code>from pyspark import SparkContext
+
+sc = SparkContext(appName=&quot;PythonExample&quot;)
+
+colorlist = sc.parallelize(my_filelist).map(my_color_image).reduce(add)
+
+sc.stop()</code></pre>
+map-reduce with user-defined map function <em>my_color_image</em> and reducer <em>add</em>
+</center>
+</section>
+<section id="spark-scheduler-ui" class="level2">
+<h2>Spark Scheduler UI</h2>
+<figure>
+<img src="img/spark_timeline_2.png" />
+</figure>
+</section>
+<section id="spark-scalability" class="level2">
+<h2>Spark Scalability</h2>
+<div class="row vertical-align">
+<div class="col-xs-8">
+<center>
+<img src="plots/scalapi_spark_scaling_1000x.png" alt="Bootstrapping 300 images files, 3 rotations each" />
+</center>
+</div>
+<div class="col-xs-4">
+<ul>
+<li><p>pi estimation scala example</p></li>
+<li><p>python code wouldn't run due to Java Heap allocation exception (TODO!)</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="still-some-work-to-do" class="level2">
+<h2>Still some work to do!</h2>
+<div class="row vertical-align">
+<div class="col-xs-8">
+<center>
+<img src="plots/bootstrap_spark_scaling_1000x.png" alt="Bootstrapping 300 images files, 3 rotations each" />
+</center>
+</div>
+<div class="col-xs-4">
+<ul>
+<li><p>using custom python modules tricky (send them around by driver)</p></li>
+<li><p>timings make <em>NO</em> sense (py4j overhead?)</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="spark-summary" class="level2">
+<h2>Spark Summary</h2>
+<ul>
+<li><p>clearly Spark is subject to hype right now</p></li>
+<li><p>integration with classical HPC systems doable (not final)</p></li>
+<li><p>syntax is clean and easy to adapt (complexity hidden)</p></li>
+<li><p>spark = placeholder for good library/framework that leverages performance and developer fun</p></li>
+<li><p>too bad python support seems not endurable right now</p></li>
+</ul>
+</section>
+</section>
+<section id="summary" class="slide level1">
+<h1>Summary</h1>
+<ul>
+<li>parallel</li>
+</ul>
+<section id="thank-you-..." class="level2">
+<h2>Thank you ...</h2>
+<p>for your attention!</p>
+</section>
+</section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    
+    slideNumber: true,
+    // The "normal" size of the presentation, aspect ratio will be preserved
+    // when the presentation is scaled to fit different resolutions. Can be
+    // specified using percentage units.
+    width: '1600',
+    height: 1080,
+
+    // Factor of the display size that should remain empty around the content
+    margin: 0.01,
+
+    // Bounds for smallest/largest possible scale to apply to content
+    minScale: 0.2,
+    maxScale: 1.5,
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+    //          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+    //          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]});
+    </script>
+    </body>
+</html>
