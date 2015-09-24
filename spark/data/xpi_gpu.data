@@ -1,0 +1,5 @@
+id                  n_cores  n_files  start_epoch  end_epoch   duration_s
+gpu_scalapi_12_25k  12       296      1443126929   1443127758  829
+gpu_scalapi_24_25k  24       296      1443126549   1443127092  543
+gpu_scalapi_36_25k  36       296      1443125874   1443126547  673
+gpu_scalapi_48_25k  48       296      1443125182   1443125479  297
