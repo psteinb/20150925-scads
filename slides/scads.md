@@ -593,11 +593,19 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 
 * too bad python support seems not endurable right now
 
+
 # Summary
 
-* parallel
+
+* parallel processing (inside bazaar/cathedral) is demanding
+
+* good tools are essential to do the job and not loose productivity/fun
+
+* big data and HPC are no contradiction 
 
 
 ## Thank you ...
 
-for your attention!
+![for your attention!](img/Sleeping_students.jpg)
+
+
