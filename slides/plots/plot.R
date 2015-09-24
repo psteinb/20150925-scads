@@ -52,7 +52,7 @@ ggsave("spark_standalone.svg",standalone_plot)
 
 spark_plot <- ggplot(spark_data, aes(x=factor(n_cores),
                                       y=max(speedup))) 
-spark_plot <- spark_plot + geom_point() #+ geom_point(data=standalone_data,aes(y=duration_s),color=2)
+spark_plot <- spark_plot + geom_point(size=5) #+ geom_point(data=standalone_data,aes(y=duration_s),color=2)
 spark_plot <- spark_plot + ylab("speed up") + xlab("Cores") 
 spark_plot <- spark_plot + my_theme #+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
 spark_plot <- spark_plot + geom_hline(data=standalone_data,aes(yintercept=1),   # Ignore NA values for mean
