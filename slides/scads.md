@@ -5,6 +5,13 @@ author: Peter Steinbach
 date: September 25, 2015
 ---
 
+# This is open source!
+
+![](img/github_repo.png)
+
+[github.com/psteinb/20150925-scads](https://github.com/psteinb/20150925-scads)
+
+
 # Outline
 
 ## 
@@ -523,6 +530,11 @@ sc.stop()
 map-reduce with user-defined map function <em>my_color_image</em> and reducer <em>add</em>
 </center>
 
+## Spark Scheduler UI
+
+![](img/spark_timeline_2.png)
+
+
 ## Spark Scalability
 
 [columns,class="row vertical-align"]
@@ -530,14 +542,16 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 [column,class="col-xs-8"]
 
 <center>
-![Bootstrapping 300 images files, 3 rotations each](plots/spark_scaling_1000x.png)
+![Bootstrapping 300 images files, 3 rotations each](plots/scalapi_spark_scaling_1000x.png)
 </center>
 
 [/column]
 
 [column,class="col-xs-4"]
 
-* pi estimation example from distribution
+* pi estimation scala example
+
+* python code wouldn't run due to Java Heap allocation exception (TODO!)
 
 [/column]
 
@@ -551,16 +565,16 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 [column,class="col-xs-8"]
 
 <center>
-![Bootstrapping 300 images files, 3 rotations each](plots/spark_scaling_1000x.png)
+![Bootstrapping 300 images files, 3 rotations each](plots/bootstrap_spark_scaling_1000x.png)
 </center>
 
 [/column]
 
 [column,class="col-xs-4"]
 
-* using custom python modules tricky
+* using custom python modules tricky (send them around by driver)
 
-* timings make NO sense (py4j overhead?)
+* timings make *NO* sense (py4j overhead?)
 
 [/column]
 
@@ -571,15 +585,18 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 
 * clearly Spark is subject to hype right now
 
-* integration with classical HPC systems doable, but cumbersome
+* integration with classical HPC systems doable (not final)
 
 * syntax is clean and easy to adapt (complexity hidden)
 
-* no advertisement for spark here, but placeholder for good library/framework that leverages performance and developer fun
+* spark = placeholder for good library/framework that leverages performance and developer fun
+
+* too bad python support seems not endurable right now
 
 # Summary
 
-* 
+* parallel
+
 
 ## Thank you ...
 

@@ -13,10 +13,10 @@ standalonefile <- argv[2]
 } 
 
 standalone_data <- read.table(standalonefile, header = T,stringsAsFactors=TRUE)
-
+standalone_data
 spark_data <- read.table(sparkfile, header = T,stringsAsFactors=TRUE)
 spark_data$speedup <- mean(standalone_data$duration_s) / spark_data$duration_s 
-
+spark_data
 library(ggplot2)
 ## library(dplyr)
 
@@ -51,7 +51,7 @@ ggsave("spark_standalone.svg",standalone_plot)
 
 
 spark_plot <- ggplot(spark_data, aes(x=factor(n_cores),
-                                      y=max(speedup))) 
+                                      y=speedup)) 
 spark_plot <- spark_plot + geom_point(size=5) #+ geom_point(data=standalone_data,aes(y=duration_s),color=2)
 spark_plot <- spark_plot + ylab("speed up") + xlab("Cores") 
 spark_plot <- spark_plot + my_theme #+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
