@@ -7,9 +7,12 @@ date: September 25, 2015
 
 # This is open source!
 
-![](img/github_repo.png)
+<center>
+![](img/github_repo_1200x.png)
 
 [github.com/psteinb/20150925-scads](https://github.com/psteinb/20150925-scads)
+</center>
+
 
 
 # Outline
@@ -594,18 +597,20 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 * too bad python support seems not endurable right now
 
 
-# Summary
+# 
 
+## Summary
 
+<div style="font-size: 1.5em;text-align: center;">
 * parallel processing (inside bazaar/cathedral) is demanding
 
 * good tools are essential to do the job and not loose productivity/fun
 
-* big data and HPC are no contradiction 
-
+* [big data and HPC are no contradiction](http://www.dursi.ca/hpc-is-dying-and-mpi-is-killing-it/)
+</div>
 
 ## Thank you ...
 
-![for your attention!](img/Sleeping_students.jpg)
+![](img/Sleeping_students.jpg) for your attention!
 
 
