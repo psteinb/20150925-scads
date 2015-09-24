@@ -207,7 +207,7 @@ taken from [Cufflinks Example](https://bitbucket.org/johanneskoester/snakemake/w
 ## Embedded R
 
 ```
-rom snakemake.utils import R
+from snakemake.utils import R
 
 SOMECONSTANT = 42
 

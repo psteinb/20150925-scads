@@ -9,34 +9,75 @@ date: September 25, 2015
 
 ## 
 
-<div style="font-size: 2em;text-align: center;">
+<div style="font-size: 2.5em;text-align: center;">
 1. Background
 
-2. Bazaar
+2. [Bazaar](https://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar)
 
-3. Cathedral
+3. [Cathedral](https://en.wikipedia.org/wiki/The_Cathedral_and_the_Bazaar)
 </div>
 
 # 
 
-## MPI CBG
+## Max Planck Institute of Molecular Cell Biology and Genetics
 
 [columns,class="row vertical-align"]
 
 [column,class="col-xs-8"]
 
-![Some comments including license](img/1280px-MPI-CBG_building_outside_4pl.jpg)
+![(CC BY-SA 3.0, Pleple2000)](img/1280px-MPI-CBG_building_outside_4pl.jpg)
 
 [/column]
 
 [column,class="col-xs-4"]
 
 * 500 staff
-* 50 % non-german
 * founded 2001
 * cell biology
 * genomics
 * systems biology
+
+[/column]
+
+[/columns]
+
+## Standard Biological Instruments
+
+[columns,class="row vertical-align"]
+
+[column,class="col-xs-6"]
+
+**Genome Sequencer**
+
+![[Illumina HiSeq2000](http://web.qbi.uq.edu.au/labs/gseq/instruments/)](img/HiSeq_2000_800x.jpg)
+
+[/column]
+
+[column,class="col-xs-6"]
+
+**Standard Microscopes**
+
+![[Zeiss Spinning Disk](http://www.biodip.de/wiki/SD3_-_Zeiss_Spinning_Disc)](img/MPI-SD3_x521.jpg)
+
+[/column]
+
+[/columns]
+
+[columns,class="row vertical-align"]
+
+[column,class="col-xs-6"]
+
+* commercial system 
+* 25 Mbp/s
+* a lot of secondary large data
+
+[/column]
+
+[column,class="col-xs-6"]
+
+* commercial systems 
+* 100 MB/s data production
+* operated in bursts
 
 [/column]
 
@@ -50,7 +91,7 @@ date: September 25, 2015
 
 **Zeiss Lightsheet Z.1**
 
-![[MPI-CBG LMF](http://www.biodip.de/wiki/LZ1_-_Zeiss_Lightsheet_Z.1) (no license)](img/LZ1_-_Zeiss_Lightsheet_Z.1_600p.jpg)
+![[MPI-CBG LMF](http://www.biodip.de/wiki/LZ1_-_Zeiss_Lightsheet_Z.1)](img/LZ1_-_Zeiss_Lightsheet_Z.1_600p.jpg)
 
 [/column]
 
@@ -58,7 +99,7 @@ date: September 25, 2015
 
 **T-SPIM Farm**
 
-![[openspim.org](http://openspim.org/Gallery) (no license)](img/2I_1D_OpenSPIM_farm_02_x450_cropped.jpg)
+![[openspim.org](http://openspim.org/Gallery)](img/2I_1D_OpenSPIM_farm_02_x450_cropped.jpg)
 
 [/column]
 
@@ -85,13 +126,20 @@ date: September 25, 2015
 [/columns]
 
 
-## Parallel Processing Essential 
+## Parallel Processing Essential!
 
-![[flickr.com](https://www.flickr.com/photos/83633410@N07/7658225516/in/photostream/) (CC BY-SA 2.0)](img/college_student_computer.jpg)
+<div style="text-align: center;">
+![[flickr.com](https://www.flickr.com/photos/83633410@N07/7658225516/in/photostream/) (CC BY-SA 2.0)](img/college_student_computer.jpg) 
+</div>
+
+# {.section data-background="img/On_the_road_cc_sa_2d0.jpg"}
+
+## On the Road to Cluster Computing {.h2 style="font-size: 2em;"} 
+
+## Who has ever worked on HPC cluster? {.h2 style="font-size: 2em;"}
+
 
 #
-
-## On the Road to Cluster Computing
 
 ## Madmax
 
@@ -99,7 +147,7 @@ date: September 25, 2015
 
 [column,class="col-xs-4"]
 
-![](img/madmax_high.jpg)
+![MPI CBG](img/madmax_high.jpg)
 
 [/column]
 
@@ -116,7 +164,7 @@ date: September 25, 2015
 
 * 200 TB Lustre parallel file system (400 MB/s to each node)
 
-* jobs are defined to batch system (LSF)
+* jobs are manually defined by batch system (LSF)
 
 ```
 $ bsub -o hw.log -q short -n 1 echo "Hello World!"
@@ -149,16 +197,15 @@ $ bsub -o hw.log -q short -n 1 echo "Hello World!"
 
 		- or: bash scripts generating bash scripts
 
-**Warning: error prone, not fun, not productive!**
 
-<!-- ![](img/slippery_floor.png) -->
+### Warning: error prone, not fun, not productive! 
 
 [/column]
 
 [/columns]
 
 
-## Where many of us come from
+## Where many HPC users come from
 
 <div style="font-size: 1.2em">
 ```
@@ -170,27 +217,28 @@ $ bsub -o hw.log -q short -n 1 echo "Hello World!"
 ```
 </div>
 
-. . .
 
-* **pipelines are everywhere**
+* **pipelines are everywhere!** (data sciences)
 
-* most of this with high influx of *.ext1 files
+* most of the above with high influx of *.ext1 files
 
-* more complex configurations on top (number of threads, gpus, ...)
+* more complex configurations on top (domain parameters, number of threads, gpus)
 
 ## It would be nice to have
 
 * lightweight
 
-* rule based <br> (most pipelines consist of fixed steps, input is what changes)
+* rule based <br> (most pipelines consist of fixed steps, input/parameters is what changes)
 
-* text based (think [version control](git-scm.org))
+* text based (for [version control](git-scm.org))
 
 * easy to extend and flexible
 
 <div style="font-size:2em;text-align: center;" class="fragment">
 **[Snakemake](https://bitbucket.org/johanneskoester/snakemake/wiki/Home)**
 </div>
+
+#
 
 ## Snakemake
 
@@ -208,7 +256,7 @@ $ bsub -o hw.log -q short -n 1 echo "Hello World!"
 
 [column,class="col-xs-6"]
 
-* write `Snakefile` in Domain Specific Language
+* write <em>Snakefile</em> in Domain Specific Language
 * Snakefile contains rules to evaluate
 
 [/column]
@@ -257,7 +305,7 @@ rule plot:
 
 <div style="max-height: 100%;">
 ```python
-$ cat Snakemake
+$ cat Snakefile
 DATAFILES = ['dataset-01.dat','dataset-02.dat']
 OUTPUT = [ item.replace(".dat",".zip") for item in DATAFILES ]
 
@@ -284,7 +332,7 @@ $ snakemake #run it
 $ snakemake --dag | dot -Tpdf > dag.pdf #produce graph
 ```
 
-See [`Snakefile`](https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples/Snakefile) in [examples](https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples) to this presentation!
+See [Snakefile](https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples/Snakefile) in [examples](https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples) to this presentation!
 
 ## Features
 
@@ -292,12 +340,13 @@ See [`Snakefile`](https://idisk.mpi-cbg.de/~steinbac/resources/20150430/examples
 ```
 $ snakemake -s cli_args.snake --config inputfiles="*dat"
 ```
+
 * snakemake is cluster aware
 ```
 $ snakemake --cluster "bsub -n 32"
 ```
 
-	* snakemake ```params``` to decorate rules for cluster execution
+* snakemake <em>params</em> to decorate rules for cluster execution
 ```
 rule:
     input:  ...
@@ -305,17 +354,15 @@ rule:
     params: runtime="04:00"
     shell: ...
 ```
-```
-snakemake --cluster "bsub -W {params.runtime}"
-```
 
-	* cluster specific configuration files
-
-	* local versus batch rules
+```
+$ snakemake --cluster "bsub -W {params.runtime}"
+```
 
 ## Advanced Features
 
 * benchmarking
+
 ```
 rule benchmark_command:
     input:
@@ -327,6 +374,8 @@ rule benchmark_command:
     shell:
         "somecommand {input} {output}"
 ```
+
+
 ```
 $ snakemake --benchmark-repeats <number>
 ```
@@ -334,6 +383,7 @@ $ snakemake --benchmark-repeats <number>
 ##
 
 * Embedded Python
+
 ```
 rule compose_merge:
     input:
@@ -405,23 +455,23 @@ rule:
 
 [/columns]
 
-But sometimes ... you need a cathedral!
+
+**But sometimes ... you need a cathedral!** 
+
 
 #
 
 ## ![](img/spark-logo_halfinverted.png)
 
-* cluster computing framework
-
-* originally developed by AMPlab at University of California, Berkeley (donated to Apache Foundattion later)
-<!-- * multi-stage in-memory primitives -->
+* distributed computing framework
 
 * requires a cluster manager (native, Yarn, Mesos) 
 
 * requires a distributed storage system (native, HDFS, Cassandra, Amazon S3)
 
-![[Spark](https://spark.apache.org/) Software Stack (no license)](img/spark-stack.png)
-
+<div style="text-align: center;">
+![[Spark](https://spark.apache.org/) Software Stack](img/spark-stack.png)
+</div>
 
 ## Spark Core = Resilient Distributed Datasets
 
@@ -429,21 +479,22 @@ But sometimes ... you need a cathedral!
 
 [column,class="col-xs-6"]
 
-Architectural Motivation
+*Architectural Motivation*
 
+(nothing-shared cluster)
 
- <object type="image/svg+xml" data="img/spark_rdd_fig2.svg" width="800" border="0" style="background-color: #FFFFFF;"> 
- </object>
- from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 2)
+![from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 5)](img/spark_rdd_fig2_larger.png)
 
 
 [/column]
 
 [column,class="col-xs-6"]
 
-Operation Lineage
+*Operation Lineage*
 
-![from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 5)](img/spark_rdd_fig5.png)
+(deferred dispatch, fault taulerance)
+
+![from ([Zaharia et al, 2012](http://people.csail.mit.edu/matei/papers/2012/nsdi_spark.pdf), figure 5)](img/spark_rdd_fig5_larger.png)
 
 [/column]
 
@@ -455,10 +506,11 @@ Operation Lineage
 
 * supports python, R and Java
 
-* code very simple, provides primitives for most data-parallel tasks
+* code very simple, provides primitives for most (all) data-parallel tasks
 
-* map-reduce with user-defined map function `my_color_image` and reducer `add`
+* example:
 
+<center>
 ```
 from pyspark import SparkContext
 
@@ -468,8 +520,52 @@ colorlist = sc.parallelize(my_filelist).map(my_color_image).reduce(add)
 
 sc.stop()
 ```
+map-reduce with user-defined map function <em>my_color_image</em> and reducer <em>add</em>
+</center>
 
 ## Spark Scalability
+
+[columns,class="row vertical-align"]
+
+[column,class="col-xs-8"]
+
+<center>
+![Bootstrapping 300 images files, 3 rotations each](plots/spark_scaling_1000x.png)
+</center>
+
+[/column]
+
+[column,class="col-xs-4"]
+
+* pi estimation example from distribution
+
+[/column]
+
+[/columns]
+
+
+## Still some work to do!
+
+[columns,class="row vertical-align"]
+
+[column,class="col-xs-8"]
+
+<center>
+![Bootstrapping 300 images files, 3 rotations each](plots/spark_scaling_1000x.png)
+</center>
+
+[/column]
+
+[column,class="col-xs-4"]
+
+* using custom python modules tricky
+
+* timings make NO sense (py4j overhead?)
+
+[/column]
+
+[/columns]
+
 
 ## Spark Summary
 
