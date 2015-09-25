@@ -4,7 +4,7 @@ Talk given at [first fall school](http://scads.de/index.php/news/48-Herbstschule
 
 The repository contains all relevant code as described by the directories.
 
-The slides can be viewed [here](https://idisk.mpi-cbg.de/~steinbac/resources/20150925/)
+The slides can be viewed [here](https://idisk.mpi-cbg.de/~steinbac/resources/20150925/scads.html)
 
 # License
 
