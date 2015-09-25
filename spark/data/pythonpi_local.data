@@ -1,2 +1,2 @@
-id                     n_cores  n_files  start_epoch  end_epoch   duration_s
-local_pythonpi_12_25k  12       296      1443122574   1443123478  904
+id n_cores n_files start_epoch end_epoch duration_s
+local_pythonpi_12_25k 12 296 1443122574 1443123478 904
