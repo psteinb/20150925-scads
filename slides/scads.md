@@ -545,23 +545,81 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 [column,class="col-xs-8"]
 
 <center>
-![Bootstrapping 300 images files, 3 rotations each](plots/scalapi_spark_scaling_1000x.png)
+![](plots/scalapi_spark_scaling_to_standalone_900x.png)
 </center>
 
 [/column]
 
 [column,class="col-xs-4"]
 
-* pi estimation scala example
-
-* python code wouldn't run due to Java Heap allocation exception (TODO!)
+* pi estimation scala example (coming with spark release)
+* scaling up to 4 nodes only
 
 [/column]
 
 [/columns]
 
 
-## Still some work to do!
+## Spark Scalability compared to standalone python
+
+<center>
+![](plots/scalapi_spark_scaling_to_standalone_900x.png)
+scala based pi estimate compared to standard python implementation (no pypy,numpy,numba,...)
+</center>
+
+## PySpark
+
+* same parameters as scala example
+
+```
+py4j.protocol.Py4JJavaError: An error occurred while calling z:org.apache.spark.api.python.PythonRDD.readRDDFromFile.
+: java.lang.OutOfMemoryError: Java heap space
+        at org.apache.spark.api.python.PythonRDD$.readRDDFromFile(PythonRDD.scala:384)
+        at org.apache.spark.api.python.PythonRDD.readRDDFromFile(PythonRDD.scala)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:483)
+        at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:231)
+```
+
+## Spark Summary
+
+* clearly Spark is subject to hype right now
+
+* integration with classical HPC systems doable (not final)
+
+* syntax is clean and easy to adapt (complexity hidden)
+
+* too bad python support seems not endurable right now
+
+* scalability on CPU-only task questionable
+
+<center>
+**spark = placeholder for good library/framework**
+</center>
+
+# 
+
+## Summary
+
+<div style="font-size: 1.5em;text-align: center;">
+* parallel processing (inside bazaar/cathedral) is demanding
+
+* good tools are essential to do the job and not loose productivity/fun
+
+* [big data and HPC are no contradiction](http://www.dursi.ca/hpc-is-dying-and-mpi-is-killing-it/)
+</div>
+
+## Thank you ...
+
+![](img/Sleeping_students.jpg) for your attention!
+
+
+
+# 
+
+## PySpark?
 
 [columns,class="row vertical-align"]
 
@@ -582,35 +640,3 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 [/column]
 
 [/columns]
-
-
-## Spark Summary
-
-* clearly Spark is subject to hype right now
-
-* integration with classical HPC systems doable (not final)
-
-* syntax is clean and easy to adapt (complexity hidden)
-
-* spark = placeholder for good library/framework that leverages performance and developer fun
-
-* too bad python support seems not endurable right now
-
-
-# 
-
-## Summary
-
-<div style="font-size: 1.5em;text-align: center;">
-* parallel processing (inside bazaar/cathedral) is demanding
-
-* good tools are essential to do the job and not loose productivity/fun
-
-* [big data and HPC are no contradiction](http://www.dursi.ca/hpc-is-dying-and-mpi-is-killing-it/)
-</div>
-
-## Thank you ...
-
-![](img/Sleeping_students.jpg) for your attention!
-
-

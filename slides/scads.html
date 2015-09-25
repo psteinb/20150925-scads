@@ -66,6 +66,9 @@ code > span.er { color: #ff0000; font-weight: bold; }.css">
 </figure>
 <a href="https://github.com/psteinb/20150925-scads">github.com/psteinb/20150925-scads</a>
 </center>
+
+
+
 </section>
 <section id="outline" class="slide level1">
 <h1>Outline</h1>
@@ -170,9 +173,7 @@ code > span.er { color: #ff0000; font-weight: bold; }.css">
 <section id="parallel-processing-essential" class="level2">
 <h2>Parallel Processing Essential!</h2>
 <div style="text-align: center;">
-<figure>
-<img src="img/college_student_computer.jpg" alt="flickr.com (CC BY-SA 2.0)" /><figcaption><a href="https://www.flickr.com/photos/83633410@N07/7658225516/in/photostream/">flickr.com</a> (CC BY-SA 2.0)</figcaption>
-</figure>
+<img src="img/college_student_computer.jpg" alt="flickr.com (CC BY-SA 2.0)" />
 </div>
 </section>
 </section>
@@ -260,7 +261,7 @@ code > span.er { color: #ff0000; font-weight: bold; }.css">
 <li><p>easy to extend and flexible</p></li>
 </ul>
 <div class="fragment" style="font-size:2em;text-align: center;">
-<p><strong><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/Home">Snakemake</a></strong></p>
+<strong><a href="https://bitbucket.org/johanneskoester/snakemake/wiki/Home">Snakemake</a></strong>
 </div>
 </section>
 </section>
@@ -310,13 +311,16 @@ rule plot:
 <section id="a-simple-example" class="level2">
 <h2>A simple example</h2>
 <center>
-<object type="image/svg+xml" data="img/simple.svg" width="1000" border="0" style="background-color: #FFFFFF;"> </object>
+ <object type="image/svg+xml" data="img/simple.svg" width="1000" border="0" style="background-color: #FFFFFF;"> 
+ </object>
 </center>
 <!-- ## A simple example -->
+
 <!-- <object type="image/svg+xml" data="img/simple.svg" -->
 <!-- width="1000" border="0" style="background-color: #FFFFFF;"> -->
 <!-- </object> -->
 <!-- <img width="1000" src="img/simple.svg"> -->
+
 </section>
 <section id="a-simple-snakemake-file" class="level2">
 <h2>A simple Snakemake file</h2>
@@ -355,10 +359,10 @@ $ snakemake --dag | dot -Tpdf &gt; dag.pdf #produce graph</code></pre>
 <pre><code>$ snakemake --cluster &quot;bsub -n 32&quot;</code></pre></li>
 <li><p>snakemake <em>params</em> to decorate rules for cluster execution</p>
 <pre><code>rule:
-input:  ...
-output: ...
-params: runtime=&quot;04:00&quot;
-shell: ...</code></pre></li>
+    input:  ...
+    output: ...
+    params: runtime=&quot;04:00&quot;
+    shell: ...</code></pre></li>
 </ul>
 <pre><code>$ snakemake --cluster &quot;bsub -W {params.runtime}&quot;</code></pre>
 </section>
@@ -455,9 +459,7 @@ rule:
 <li><p>requires a distributed storage system (native, HDFS, Cassandra, Amazon S3)</p></li>
 </ul>
 <div style="text-align: center;">
-<figure>
-<img src="img/spark-stack.png" alt="Spark Software Stack" /><figcaption><a href="https://spark.apache.org/">Spark</a> Software Stack</figcaption>
-</figure>
+<img src="img/spark-stack.png" alt="Spark Software Stack" />
 </div>
 </section>
 <section id="spark-core-resilient-distributed-datasets" class="level2">
@@ -497,6 +499,7 @@ colorlist = sc.parallelize(my_filelist).map(my_color_image).reduce(add)
 sc.stop()</code></pre>
 map-reduce with user-defined map function <em>my_color_image</em> and reducer <em>add</em>
 </center>
+
 </section>
 <section id="spark-scheduler-ui" class="level2">
 <h2>Spark Scheduler UI</h2>
@@ -509,32 +512,39 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 <div class="row vertical-align">
 <div class="col-xs-8">
 <center>
-<img src="plots/scalapi_spark_scaling_1000x.png" alt="Bootstrapping 300 images files, 3 rotations each" />
+<img src="plots/scalapi_spark_scaling_to_standalone_900x.png" />
 </center>
+
 </div>
 <div class="col-xs-4">
 <ul>
-<li><p>pi estimation scala example</p></li>
-<li><p>python code wouldn't run due to Java Heap allocation exception (TODO!)</p></li>
+<li>pi estimation scala example (coming with spark release)</li>
+<li>scaling up to 4 nodes only</li>
 </ul>
 </div>
 </div>
 </section>
-<section id="still-some-work-to-do" class="level2">
-<h2>Still some work to do!</h2>
-<div class="row vertical-align">
-<div class="col-xs-8">
+<section id="spark-scalability-compared-to-standalone-python" class="level2">
+<h2>Spark Scalability compared to standalone python</h2>
 <center>
-<img src="plots/bootstrap_spark_scaling_1000x.png" alt="Bootstrapping 300 images files, 3 rotations each" />
+<img src="plots/scalapi_spark_scaling_to_standalone_900x.png" /> scala based pi estimate compared to standard python implementation (no pypy,numpy,numba,...)
 </center>
-</div>
-<div class="col-xs-4">
+
+</section>
+<section id="pyspark" class="level2">
+<h2>PySpark</h2>
 <ul>
-<li><p>using custom python modules tricky (send them around by driver)</p></li>
-<li><p>timings make <em>NO</em> sense (py4j overhead?)</p></li>
+<li>same parameters as scala example</li>
 </ul>
-</div>
-</div>
+<pre><code>py4j.protocol.Py4JJavaError: An error occurred while calling z:org.apache.spark.api.python.PythonRDD.readRDDFromFile.
+: java.lang.OutOfMemoryError: Java heap space
+        at org.apache.spark.api.python.PythonRDD$.readRDDFromFile(PythonRDD.scala:384)
+        at org.apache.spark.api.python.PythonRDD.readRDDFromFile(PythonRDD.scala)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:483)
+        at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:231)</code></pre>
 </section>
 <section id="spark-summary" class="level2">
 <h2>Spark Summary</h2>
@@ -542,9 +552,13 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 <li><p>clearly Spark is subject to hype right now</p></li>
 <li><p>integration with classical HPC systems doable (not final)</p></li>
 <li><p>syntax is clean and easy to adapt (complexity hidden)</p></li>
-<li><p>spark = placeholder for good library/framework that leverages performance and developer fun</p></li>
 <li><p>too bad python support seems not endurable right now</p></li>
+<li><p>scalability on CPU-only task questionable</p></li>
 </ul>
+<center>
+<strong>spark = placeholder for good library/framework</strong>
+</center>
+
 </section>
 </section>
 <section id="section-9" class="slide level1">
@@ -562,6 +576,26 @@ map-reduce with user-defined map function <em>my_color_image</em> and reducer <e
 <section id="thank-you-..." class="level2">
 <h2>Thank you ...</h2>
 <p><img src="img/Sleeping_students.jpg" /> for your attention!</p>
+</section>
+</section>
+<section id="section-10" class="slide level1">
+<h1></h1>
+<section id="pyspark-1" class="level2">
+<h2>PySpark?</h2>
+<div class="row vertical-align">
+<div class="col-xs-8">
+<center>
+<img src="plots/bootstrap_spark_scaling_1000x.png" alt="Bootstrapping 300 images files, 3 rotations each" />
+</center>
+
+</div>
+<div class="col-xs-4">
+<ul>
+<li><p>using custom python modules tricky (send them around by driver)</p></li>
+<li><p>timings make <em>NO</em> sense (py4j overhead?)</p></li>
+</ul>
+</div>
+</div>
 </section>
 </section>
     </div>
